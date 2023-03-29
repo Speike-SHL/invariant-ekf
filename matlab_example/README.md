@@ -1,9 +1,9 @@
 ## Running the Matlab example
-1. Open Matlab to the "matlab_example" folder.
+1. Open Matlab to the "src\examples_matlab" folder.
 
 2. Run the scipt "run_RIEKF_test.m". This will open and run a simulink model with the measurement data stored in the "/data" folder. After the simulation finishes, a few plots will appear analyzing the results of the state estimator.   
 
-3. The filter parameters can be changed in the "example_code/RIEKF_InitFcn.m" script. This script is automatically executed when the simulink model is run.
+3. The filter parameters can be changed in the "examples_matlab/InEKF/RIEKF_InitFcn.m" script. This script is automatically executed when the simulink model is run.
 
 ### Tunable Parameters
 The following parameters will affect the actual noisy measurements coming into the filter:
