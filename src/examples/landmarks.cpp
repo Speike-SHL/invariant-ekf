@@ -75,7 +75,7 @@ int main() {
 
     // Landmark 1
     id = 1;
-    p_wl << 0,-1,0;
+    p_wl << 0,-1,0;  //HACK 这是什么，怎么确定的，静态地标还是动态地标
     prior_landmarks.insert(pair<int,Eigen::Vector3d> (id, p_wl)); 
 
     // // Landmark 2
@@ -93,7 +93,7 @@ int main() {
 
 
     // Open data file
-    ifstream infile("../src/data/imu_landmark_measurements.txt");
+    ifstream infile("./src/data/imu_landmark_measurements.txt");
     string line;
     Eigen::Matrix<double,6,1> imu_measurement = Eigen::Matrix<double,6,1>::Zero();
     Eigen::Matrix<double,6,1> imu_measurement_prev = Eigen::Matrix<double,6,1>::Zero();
@@ -108,13 +108,13 @@ int main() {
         if (measurement[0].compare("IMU")==0){
             cout << "Received IMU Data, propagating state\n";
             assert((measurement.size()-2) == 6);
-            t = stoi98(measurement[1]); 
-            imu_measurement << stoi98(measurement[2]), 
-                               stoi98(measurement[3]), 
-                               stoi98(measurement[4]),
-                               stoi98(measurement[5]),
-                               stoi98(measurement[6]),
-                               stoi98(measurement[7]);
+            t = stod98(measurement[1]); 
+            imu_measurement << stod98(measurement[2]), 
+                               stod98(measurement[3]), 
+                               stod98(measurement[4]),
+                               stod98(measurement[5]),
+                               stod98(measurement[6]),
+                               stod98(measurement[7]);
 
             // Propagate using IMU data
             double dt = t - t_prev;
@@ -122,11 +122,12 @@ int main() {
                 filter.Propagate(imu_measurement_prev, dt);
             }
         }
-        else if (measurement[0].compare("LANDMARK")==0){
+        // LANDMARK time 地标id 地标相对位移p*3 地标id 地标相对位移p*3
+        else if (measurement[0].compare("LANDMARK")==0){  //地标行
             cout << "Received LANDMARK observation, correcting state\n";
             assert((measurement.size()-2)%4 == 0);
             t = stoi98(measurement[1]); 
-            vectorLandmarks measured_landmarks;
+            vectorLandmarks measured_landmarks;  // 观测到的Landmark 对象列表<id 地标相对body的p.3x1>
             for (int i=2; i<measurement.size(); i+=4) {
                 int id = stoi98(measurement[i]);
                 Eigen::Vector3d p_bl;
@@ -138,7 +139,7 @@ int main() {
             }
 
             // Correct state using landmark measurements
-            filter.CorrectLandmarks(measured_landmarks);
+            filter.CorrectLandmarks(measured_landmarks);  //使用地标进行更新
         }
 
         // Store previous timestamp

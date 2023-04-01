@@ -18,20 +18,20 @@ namespace inekf {
 
 using namespace std;
 
-// Default constructor
+/// 默认构造, X = [R v p] = 5x5, Theta = [bg; ba] = 6x1, P = 15x15
 RobotState::RobotState() : 
     X_(Eigen::MatrixXd::Identity(5,5)), Theta_(Eigen::MatrixXd::Zero(6,1)), P_(Eigen::MatrixXd::Identity(15,15)) {}
-// Initialize with X
+/// Initialize with X
 RobotState::RobotState(const Eigen::MatrixXd& X) : 
     X_(X), Theta_(Eigen::MatrixXd::Zero(6,1)) {
     P_ = Eigen::MatrixXd::Identity(3*this->dimX()+this->dimTheta()-6, 3*this->dimX()+this->dimTheta()-6);
 }
-// Initialize with X and Theta
+/// Initialize with X and Theta
 RobotState::RobotState(const Eigen::MatrixXd& X, const Eigen::VectorXd& Theta) : 
     X_(X), Theta_(Theta) {
     P_ = Eigen::MatrixXd::Identity(3*this->dimX()+this->dimTheta()-6, 3*this->dimX()+this->dimTheta()-6);
 }
-// Initialize with X, Theta and P
+/// Initialize with X, Theta and P
 RobotState::RobotState(const Eigen::MatrixXd& X, const Eigen::VectorXd& Theta, const Eigen::MatrixXd& P) : 
     X_(X), Theta_(Theta), P_(P) {}
 // TODO: error checking to make sure dimensions are correct and supported
@@ -124,19 +124,23 @@ const Eigen::Vector3d RobotState::getAccelerometerBias() {
 #endif
     return Theta_.tail(3); 
 }
+
+/// 返回X的维度
 const int RobotState::dimX() { 
 #if INEKF_USE_MUTEX
     unique_lock<mutex> mlock(mutex_);
 #endif
     return X_.cols(); 
 }
+/// 返回theta的行数
 const int RobotState::dimTheta() {
 #if INEKF_USE_MUTEX
     unique_lock<mutex> mlock(mutex_);
 #endif
     return Theta_.rows();
 }
-const int RobotState::dimP() { 
+/// 返回P的维度
+const int RobotState::dimP() {
 #if INEKF_USE_MUTEX
     unique_lock<mutex> mlock(mutex_);
 #endif
@@ -192,22 +196,23 @@ void RobotState::setAccelerometerBias(const Eigen::Vector3d& ba) {
     Theta_.tail(3) = ba; 
 }
 
-
+/// 在原有BigX基础上将状态X对角扩充n次
 void RobotState::copyDiagX(int n, Eigen::MatrixXd& BigX) {
     int dimX = this->dimX();
     for(int i=0; i<n; ++i) {
-        int startIndex = BigX.rows();
-        BigX.conservativeResize(startIndex + dimX, startIndex + dimX);
-        BigX.block(startIndex,0,dimX,startIndex) = Eigen::MatrixXd::Zero(dimX,startIndex);
-        BigX.block(0,startIndex,startIndex,dimX) = Eigen::MatrixXd::Zero(startIndex,dimX);
+        int startIndex = BigX.rows(); //获取BigX的当前维度
+        BigX.conservativeResize(startIndex + dimX, startIndex + dimX); //把BigX扩展为当前BigX维度+dimX维,新增部分置0
+        BigX.block(startIndex,0,dimX,startIndex) = Eigen::MatrixXd::Zero(dimX,startIndex);  //下对角置0
+        BigX.block(0,startIndex,startIndex,dimX) = Eigen::MatrixXd::Zero(startIndex,dimX);  //上对角置0
 #if INEKF_USE_MUTEX
         unique_lock<mutex> mlock(mutex_);
 #endif
-        BigX.block(startIndex,startIndex,dimX,dimX) = X_;
+        BigX.block(startIndex,startIndex,dimX,dimX) = X_; //新增对角部分置X
     }
     return;
 }
 
+/// RobotState类重载<<输出当前状态, 打印X、theta、P的当前值
 ostream& operator<<(ostream& os, const RobotState& s) {  
 #if INEKF_USE_MUTEX
     unique_lock<mutex> mlock(s.mutex_);

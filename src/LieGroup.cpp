@@ -19,6 +19,7 @@ using namespace std;
 
 const double TOLERANCE = 1e-10;
 
+/// 返回向量v的反对称阵
 Eigen::Matrix3d skew(const Eigen::Vector3d& v) {
     // Convert vector to skew-symmetric matrix
     Eigen::Matrix3d M = Eigen::Matrix3d::Zero();
@@ -28,18 +29,28 @@ Eigen::Matrix3d skew(const Eigen::Vector3d& v) {
         return M;
 }
 
+/// 指数映射,三维向量到旋转矩阵
 Eigen::Matrix3d Exp_SO3(const Eigen::Vector3d& w) {
     // Computes the vectorized exponential map for SO(3)
     Eigen::Matrix3d A = skew(w);
     double theta = w.norm();
     if (theta < TOLERANCE) {
         return Eigen::Matrix3d::Identity();
-    } 
+    }
     Eigen::Matrix3d R =  Eigen::Matrix3d::Identity() + (sin(theta)/theta)*A + ((1-cos(theta))/(theta*theta))*A*A;
     return R;
 }
 
-Eigen::MatrixXd Exp_SEK3(const Eigen::VectorXd& v) {
+/// SEK3的指数映射
+/// \f[
+/// \mathrm{Exp}\left( \xi \right) =\left[ \begin{matrix}
+/// 	R&		J_l\xi _v&		J_l\xi _p\\
+/// 	0&		1&		0\\
+/// 	0&		0&		1\\
+/// \end{matrix} \right] 
+/// \f]
+Eigen::MatrixXd Exp_SEK3(const Eigen::VectorXd &v)
+{
     // Computes the vectorized exponential map for SE_K(3)
     int K = (v.size()-3)/3;
     Eigen::MatrixXd X = Eigen::MatrixXd::Identity(3+K,3+K);
@@ -68,6 +79,18 @@ Eigen::MatrixXd Exp_SEK3(const Eigen::VectorXd& v) {
     return X;
 }
 
+/// 返回SEK3的伴随
+/// \f[
+/// \left[ \begin{matrix}
+///     \mathrm{R}&		\mathrm{v}&		\mathrm{p}\\
+///     0&		1&		0\\
+///     0&		0&		1\\
+/// \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+///     \mathrm{R}&		0&		0\\
+///     \mathrm{v}^{\land}\mathrm{R}&		\mathrm{R}&		0\\
+///     \mathrm{p}^{\land}\mathrm{R}&		0&		\mathrm{R}\\
+/// \end{matrix} \right] 
+/// \f]
 Eigen::MatrixXd Adjoint_SEK3(const Eigen::MatrixXd& X) {
     // Compute Adjoint(X) for X in SE_K(3)
     int K = X.cols()-3;

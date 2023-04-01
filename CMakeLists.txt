@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 2.8.3)
 # Project's name
 project(inekf)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 option(USE_CPP11 "Use flag -std=c++11" ON)
 option(USE_MUTEX "Use mutex in code" OFF)
 
@@ -18,7 +20,7 @@ endif (USE_MUTEX AND NOT USE_CPP11)
 if (USE_CPP11)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif(USE_CPP11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DEIGEN_NO_DEBUG -march=native -Wl,--no-as-needed")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DEIGEN_NO_DEBUG -march=native -Wl,--no-as-needed")
 if (USE_MUTEX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINEKF_USE_MUTEX=true")
 else (USE_MUTEX)
@@ -44,6 +46,7 @@ find_package (Threads)
 
 # Boost
 find_package(Boost 1.57 REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS filesystem)
 include_directories(${Boost_INCLUDE_DIR})
 message("Boost_INCLUDE_DIR: " ${Boost_INCLUDE_DIR})
 
@@ -67,8 +70,9 @@ add_executable(kinematics ${PROJECT_SOURCE_DIR}/src/examples/kinematics.cpp ${sr
 add_executable(propagation_speed ${PROJECT_SOURCE_DIR}/src/tests/propagation_speed.cpp ${src_files})
 add_executable(correction_speed ${PROJECT_SOURCE_DIR}/src/tests/correction_speed.cpp ${src_files})
 
+
 target_link_libraries(landmarks ${Boost_LIBRARIES})
-target_link_libraries(kinematics ${Boost_LIBRARIES})
+target_link_libraries(kinematics ${Boost_LIBRARIES} Boost::filesystem)
 target_link_libraries(propagation_speed ${Boost_LIBRARIES})
 target_link_libraries(correction_speed ${Boost_LIBRARIES})
 
