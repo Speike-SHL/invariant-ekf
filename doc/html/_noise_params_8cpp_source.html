@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>InEKF C++: src/NoiseParams.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">InEKF C++
+   </div>
+   <div id="projectbrief">https://github.com/Speike-SHL/invariant-ekf</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="搜索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('_noise_params_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">NoiseParams.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_noise_params_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ----------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Copyright 2018, Ross Hartley &lt;m.ross.hartley@gmail.com&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * All Rights Reserved</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * See LICENSE for the license information</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * -------------------------------------------------------------------------- */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="_noise_params_8h.html">NoiseParams.h</a>&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceinekf.html">inekf</a></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>{</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>   <span class="keyword">using namespace </span>std;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>   <span class="comment">// ------------ NoiseParams -------------</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#ae24b14b229baeac6a3cad2b0c7f69a97">   23</a></span><span class="comment"></span>   <a class="code hl_function" href="classinekf_1_1_noise_params.html#ae24b14b229baeac6a3cad2b0c7f69a97">NoiseParams::NoiseParams</a>()</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>   {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>      <a class="code hl_function" href="classinekf_1_1_noise_params.html#a2e73d369398a1239c52ba7e88dd4a57f">setGyroscopeNoise</a>(0.01);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>      <a class="code hl_function" href="classinekf_1_1_noise_params.html#ae07634aefe394e9a27d061778939894f">setAccelerometerNoise</a>(0.1);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>      <a class="code hl_function" href="classinekf_1_1_noise_params.html#a33fa9e87e45017b9200d68a39f91441a">setGyroscopeBiasNoise</a>(0.00001);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>      <a class="code hl_function" href="classinekf_1_1_noise_params.html#aeffecde696593a21a10b82fa93651e88">setAccelerometerBiasNoise</a>(0.0001);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>      <a class="code hl_function" href="classinekf_1_1_noise_params.html#acaf7276f4c4355c01736419064d4a72c">setLandmarkNoise</a>(0.1);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>      <a class="code hl_function" href="classinekf_1_1_noise_params.html#a01377a6457635595dfa323ff0838c7e1">setContactNoise</a>(0.1);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>   }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a2e73d369398a1239c52ba7e88dd4a57f">   34</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a2e73d369398a1239c52ba7e88dd4a57f">NoiseParams::setGyroscopeNoise</a>(<span class="keywordtype">double</span> std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a79b9bbfa027732c11e6e4f002bdc0780">Qg_</a> = std * std * Eigen::Matrix3d::Identity(); }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a2903c6e56e85565e142be4ea15ef9fea">   36</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a2e73d369398a1239c52ba7e88dd4a57f">NoiseParams::setGyroscopeNoise</a>(<span class="keyword">const</span> Eigen::Vector3d &amp;std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a79b9bbfa027732c11e6e4f002bdc0780">Qg_</a> &lt;&lt; std(0) * std(0), 0, 0, 0, std(1) * std(1), 0, 0, 0, std(2) * std(2); }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a54de8c279a4148305105dfcf974cd61c">   38</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a2e73d369398a1239c52ba7e88dd4a57f">NoiseParams::setGyroscopeNoise</a>(<span class="keyword">const</span> Eigen::Matrix3d &amp;cov) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a79b9bbfa027732c11e6e4f002bdc0780">Qg_</a> = cov; }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#ae07634aefe394e9a27d061778939894f">   41</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#ae07634aefe394e9a27d061778939894f">NoiseParams::setAccelerometerNoise</a>(<span class="keywordtype">double</span> std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0913f1f9f817e1aea1902197686e561a">Qa_</a> = std * std * Eigen::Matrix3d::Identity(); }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#af9c3035cef02672dd049543078ad252b">   43</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#ae07634aefe394e9a27d061778939894f">NoiseParams::setAccelerometerNoise</a>(<span class="keyword">const</span> Eigen::Vector3d &amp;std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0913f1f9f817e1aea1902197686e561a">Qa_</a> &lt;&lt; std(0) * std(0), 0, 0, 0, std(1) * std(1), 0, 0, 0, std(2) * std(2); }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#ac14488ed4d3911a645c37a82ad7f07bd">   45</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#ae07634aefe394e9a27d061778939894f">NoiseParams::setAccelerometerNoise</a>(<span class="keyword">const</span> Eigen::Matrix3d &amp;cov) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0913f1f9f817e1aea1902197686e561a">Qa_</a> = cov; }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a33fa9e87e45017b9200d68a39f91441a">   48</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a33fa9e87e45017b9200d68a39f91441a">NoiseParams::setGyroscopeBiasNoise</a>(<span class="keywordtype">double</span> std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#aa5983e6c67e7f84c184f02feb0816878">Qbg_</a> = std * std * Eigen::Matrix3d::Identity(); }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a6e084cd3a1f1aceb57f4b0192a753ed0">   50</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a33fa9e87e45017b9200d68a39f91441a">NoiseParams::setGyroscopeBiasNoise</a>(<span class="keyword">const</span> Eigen::Vector3d &amp;std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#aa5983e6c67e7f84c184f02feb0816878">Qbg_</a> &lt;&lt; std(0) * std(0), 0, 0, 0, std(1) * std(1), 0, 0, 0, std(2) * std(2); }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>   <span class="comment">// 设置 Qbg 3x3, Qg = 传入的cov</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#ad684a1cdef6b4606cbb3a9a14c007bc0">   52</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a33fa9e87e45017b9200d68a39f91441a">NoiseParams::setGyroscopeBiasNoise</a>(<span class="keyword">const</span> Eigen::Matrix3d &amp;cov) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#aa5983e6c67e7f84c184f02feb0816878">Qbg_</a> = cov; }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#aeffecde696593a21a10b82fa93651e88">   55</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#aeffecde696593a21a10b82fa93651e88">NoiseParams::setAccelerometerBiasNoise</a>(<span class="keywordtype">double</span> std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#abdeeb7a3ec2c4b52a99d2e1354c8ea66">Qba_</a> = std * std * Eigen::Matrix3d::Identity(); }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a6d6d03d9273d81b6ad45d9f87dfca656">   57</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#aeffecde696593a21a10b82fa93651e88">NoiseParams::setAccelerometerBiasNoise</a>(<span class="keyword">const</span> Eigen::Vector3d &amp;std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#abdeeb7a3ec2c4b52a99d2e1354c8ea66">Qba_</a> &lt;&lt; std(0) * std(0), 0, 0, 0, std(1) * std(1), 0, 0, 0, std(2) * std(2); }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a87b7265252b462a551702bddaedd2cbe">   59</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#aeffecde696593a21a10b82fa93651e88">NoiseParams::setAccelerometerBiasNoise</a>(<span class="keyword">const</span> Eigen::Matrix3d &amp;cov) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#abdeeb7a3ec2c4b52a99d2e1354c8ea66">Qba_</a> = cov; }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#acaf7276f4c4355c01736419064d4a72c">   62</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#acaf7276f4c4355c01736419064d4a72c">NoiseParams::setLandmarkNoise</a>(<span class="keywordtype">double</span> std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0553fcbe5e29262a55642565305c169b">Ql_</a> = std * std * Eigen::Matrix3d::Identity(); }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>   <span class="comment">// 设置 Ql 3x3, 对角分别对应std(0)~std(3)</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a28716a759ce8670664453f220ef9f39a">   64</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#acaf7276f4c4355c01736419064d4a72c">NoiseParams::setLandmarkNoise</a>(<span class="keyword">const</span> Eigen::Vector3d &amp;std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0553fcbe5e29262a55642565305c169b">Ql_</a> &lt;&lt; std(0) * std(0), 0, 0, 0, std(1) * std(1), 0, 0, 0, std(2) * std(2); }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>   <span class="comment">// 设置 Ql 3x3, Qg = 传入的cov</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#aeaea7881a621b489da1418d0d5601efb">   66</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#acaf7276f4c4355c01736419064d4a72c">NoiseParams::setLandmarkNoise</a>(<span class="keyword">const</span> Eigen::Matrix3d &amp;cov) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0553fcbe5e29262a55642565305c169b">Ql_</a> = cov; }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a01377a6457635595dfa323ff0838c7e1">   69</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a01377a6457635595dfa323ff0838c7e1">NoiseParams::setContactNoise</a>(<span class="keywordtype">double</span> std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a33c47deef6691ac2d932553207f546b3">Qc_</a> = std * std * Eigen::Matrix3d::Identity(); }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a4b2d04deab9f9543c5374b4e06e7cee7">   71</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a01377a6457635595dfa323ff0838c7e1">NoiseParams::setContactNoise</a>(<span class="keyword">const</span> Eigen::Vector3d &amp;std) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a33c47deef6691ac2d932553207f546b3">Qc_</a> &lt;&lt; std(0) * std(0), 0, 0, 0, std(1) * std(1), 0, 0, 0, std(2) * std(2); }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#ae4e915f5849a0edffd22ce5ba44b1543">   73</a></span>   <span class="keywordtype">void</span> <a class="code hl_function" href="classinekf_1_1_noise_params.html#a01377a6457635595dfa323ff0838c7e1">NoiseParams::setContactNoise</a>(<span class="keyword">const</span> Eigen::Matrix3d &amp;cov) { <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a33c47deef6691ac2d932553207f546b3">Qc_</a> = cov; }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a07d100bd0c59b43a61890a258c5a6931">   75</a></span>   Eigen::Matrix3d <a class="code hl_function" href="classinekf_1_1_noise_params.html#a07d100bd0c59b43a61890a258c5a6931">NoiseParams::getGyroscopeCov</a>() { <span class="keywordflow">return</span> <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a79b9bbfa027732c11e6e4f002bdc0780">Qg_</a>; }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#aeedc0c226e69a873f800e82511ba3237">   76</a></span>   Eigen::Matrix3d <a class="code hl_function" href="classinekf_1_1_noise_params.html#aeedc0c226e69a873f800e82511ba3237">NoiseParams::getAccelerometerCov</a>() { <span class="keywordflow">return</span> <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0913f1f9f817e1aea1902197686e561a">Qa_</a>; }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a4aec3c297bfd079c25fcaeee8939cd30">   77</a></span>   Eigen::Matrix3d <a class="code hl_function" href="classinekf_1_1_noise_params.html#a4aec3c297bfd079c25fcaeee8939cd30">NoiseParams::getGyroscopeBiasCov</a>() { <span class="keywordflow">return</span> <a class="code hl_variable" href="classinekf_1_1_noise_params.html#aa5983e6c67e7f84c184f02feb0816878">Qbg_</a>; }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a1f46cda1ae0be9cd414b0a5e3709556b">   78</a></span>   Eigen::Matrix3d <a class="code hl_function" href="classinekf_1_1_noise_params.html#a1f46cda1ae0be9cd414b0a5e3709556b">NoiseParams::getAccelerometerBiasCov</a>() { <span class="keywordflow">return</span> <a class="code hl_variable" href="classinekf_1_1_noise_params.html#abdeeb7a3ec2c4b52a99d2e1354c8ea66">Qba_</a>; }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#adbd3b26fa7655ae51f0394452e9f10bb">   79</a></span>   Eigen::Matrix3d <a class="code hl_function" href="classinekf_1_1_noise_params.html#adbd3b26fa7655ae51f0394452e9f10bb">NoiseParams::getLandmarkCov</a>() { <span class="keywordflow">return</span> <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0553fcbe5e29262a55642565305c169b">Ql_</a>; }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a821ce5b88df155b3d4f88fc723cff795">   80</a></span>   Eigen::Matrix3d <a class="code hl_function" href="classinekf_1_1_noise_params.html#a821ce5b88df155b3d4f88fc723cff795">NoiseParams::getContactCov</a>() { <span class="keywordflow">return</span> <a class="code hl_variable" href="classinekf_1_1_noise_params.html#a33c47deef6691ac2d932553207f546b3">Qc_</a>; }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classinekf_1_1_noise_params.html#a7d68a595e5aa02dd2f49fb7c045558e2">   83</a></span>   std::ostream &amp;<a class="code hl_function" href="namespaceinekf.html#a5477997213913edba08fa8819cbcb1d9">operator&lt;&lt;</a>(std::ostream &amp;os, <span class="keyword">const</span> <a class="code hl_class" href="classinekf_1_1_noise_params.html">NoiseParams</a> &amp;p)</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>   {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      os &lt;&lt; <span class="stringliteral">&quot;--------- Noise Params -------------&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      os &lt;&lt; <span class="stringliteral">&quot;Gyroscope Covariance:\n&quot;</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>         &lt;&lt; p.<a class="code hl_variable" href="classinekf_1_1_noise_params.html#a79b9bbfa027732c11e6e4f002bdc0780">Qg_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      os &lt;&lt; <span class="stringliteral">&quot;Accelerometer Covariance:\n&quot;</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>         &lt;&lt; p.<a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0913f1f9f817e1aea1902197686e561a">Qa_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      os &lt;&lt; <span class="stringliteral">&quot;Gyroscope Bias Covariance:\n&quot;</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>         &lt;&lt; p.<a class="code hl_variable" href="classinekf_1_1_noise_params.html#aa5983e6c67e7f84c184f02feb0816878">Qbg_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>      os &lt;&lt; <span class="stringliteral">&quot;Accelerometer Bias Covariance:\n&quot;</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>         &lt;&lt; p.<a class="code hl_variable" href="classinekf_1_1_noise_params.html#abdeeb7a3ec2c4b52a99d2e1354c8ea66">Qba_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>      os &lt;&lt; <span class="stringliteral">&quot;Landmark Covariance:\n&quot;</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>         &lt;&lt; p.<a class="code hl_variable" href="classinekf_1_1_noise_params.html#a0553fcbe5e29262a55642565305c169b">Ql_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>      os &lt;&lt; <span class="stringliteral">&quot;Contact Covariance:\n&quot;</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>         &lt;&lt; p.<a class="code hl_variable" href="classinekf_1_1_noise_params.html#a33c47deef6691ac2d932553207f546b3">Qc_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      os &lt;&lt; <span class="stringliteral">&quot;-----------------------------------&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>      <span class="keywordflow">return</span> os;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>   }</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>} <span class="comment">// end inekf namespace</span></div>
+<div class="ttc" id="a_noise_params_8h_html"><div class="ttname"><a href="_noise_params_8h.html">NoiseParams.h</a></div><div class="ttdoc">Header file for Invariant EKF noise parameter class</div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html"><div class="ttname"><a href="classinekf_1_1_noise_params.html">inekf::NoiseParams</a></div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8h_source.html#l00020">NoiseParams.h:20</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a01377a6457635595dfa323ff0838c7e1"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a01377a6457635595dfa323ff0838c7e1">inekf::NoiseParams::setContactNoise</a></div><div class="ttdeci">void setContactNoise(double std)</div><div class="ttdoc">设置 Qc 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00069">NoiseParams.cpp:69</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a0553fcbe5e29262a55642565305c169b"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a0553fcbe5e29262a55642565305c169b">inekf::NoiseParams::Ql_</a></div><div class="ttdeci">Eigen::Matrix3d Ql_</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8h_source.html#l00064">NoiseParams.h:64</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a07d100bd0c59b43a61890a258c5a6931"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a07d100bd0c59b43a61890a258c5a6931">inekf::NoiseParams::getGyroscopeCov</a></div><div class="ttdeci">Eigen::Matrix3d getGyroscopeCov()</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00075">NoiseParams.cpp:75</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a0913f1f9f817e1aea1902197686e561a"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a0913f1f9f817e1aea1902197686e561a">inekf::NoiseParams::Qa_</a></div><div class="ttdeci">Eigen::Matrix3d Qa_</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8h_source.html#l00061">NoiseParams.h:61</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a1f46cda1ae0be9cd414b0a5e3709556b"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a1f46cda1ae0be9cd414b0a5e3709556b">inekf::NoiseParams::getAccelerometerBiasCov</a></div><div class="ttdeci">Eigen::Matrix3d getAccelerometerBiasCov()</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00078">NoiseParams.cpp:78</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a2e73d369398a1239c52ba7e88dd4a57f"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a2e73d369398a1239c52ba7e88dd4a57f">inekf::NoiseParams::setGyroscopeNoise</a></div><div class="ttdeci">void setGyroscopeNoise(double std)</div><div class="ttdoc">设置 Qg 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00034">NoiseParams.cpp:34</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a33c47deef6691ac2d932553207f546b3"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a33c47deef6691ac2d932553207f546b3">inekf::NoiseParams::Qc_</a></div><div class="ttdeci">Eigen::Matrix3d Qc_</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8h_source.html#l00065">NoiseParams.h:65</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a33fa9e87e45017b9200d68a39f91441a"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a33fa9e87e45017b9200d68a39f91441a">inekf::NoiseParams::setGyroscopeBiasNoise</a></div><div class="ttdeci">void setGyroscopeBiasNoise(double std)</div><div class="ttdoc">设置 Qbg 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00048">NoiseParams.cpp:48</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a4aec3c297bfd079c25fcaeee8939cd30"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a4aec3c297bfd079c25fcaeee8939cd30">inekf::NoiseParams::getGyroscopeBiasCov</a></div><div class="ttdeci">Eigen::Matrix3d getGyroscopeBiasCov()</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00077">NoiseParams.cpp:77</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a79b9bbfa027732c11e6e4f002bdc0780"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a79b9bbfa027732c11e6e4f002bdc0780">inekf::NoiseParams::Qg_</a></div><div class="ttdeci">Eigen::Matrix3d Qg_</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8h_source.html#l00060">NoiseParams.h:60</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a821ce5b88df155b3d4f88fc723cff795"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a821ce5b88df155b3d4f88fc723cff795">inekf::NoiseParams::getContactCov</a></div><div class="ttdeci">Eigen::Matrix3d getContactCov()</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00080">NoiseParams.cpp:80</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_aa5983e6c67e7f84c184f02feb0816878"><div class="ttname"><a href="classinekf_1_1_noise_params.html#aa5983e6c67e7f84c184f02feb0816878">inekf::NoiseParams::Qbg_</a></div><div class="ttdeci">Eigen::Matrix3d Qbg_</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8h_source.html#l00062">NoiseParams.h:62</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_abdeeb7a3ec2c4b52a99d2e1354c8ea66"><div class="ttname"><a href="classinekf_1_1_noise_params.html#abdeeb7a3ec2c4b52a99d2e1354c8ea66">inekf::NoiseParams::Qba_</a></div><div class="ttdeci">Eigen::Matrix3d Qba_</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8h_source.html#l00063">NoiseParams.h:63</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_acaf7276f4c4355c01736419064d4a72c"><div class="ttname"><a href="classinekf_1_1_noise_params.html#acaf7276f4c4355c01736419064d4a72c">inekf::NoiseParams::setLandmarkNoise</a></div><div class="ttdeci">void setLandmarkNoise(double std)</div><div class="ttdoc">设置 Ql 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00062">NoiseParams.cpp:62</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_adbd3b26fa7655ae51f0394452e9f10bb"><div class="ttname"><a href="classinekf_1_1_noise_params.html#adbd3b26fa7655ae51f0394452e9f10bb">inekf::NoiseParams::getLandmarkCov</a></div><div class="ttdeci">Eigen::Matrix3d getLandmarkCov()</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00079">NoiseParams.cpp:79</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_ae07634aefe394e9a27d061778939894f"><div class="ttname"><a href="classinekf_1_1_noise_params.html#ae07634aefe394e9a27d061778939894f">inekf::NoiseParams::setAccelerometerNoise</a></div><div class="ttdeci">void setAccelerometerNoise(double std)</div><div class="ttdoc">设置 Qa 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00041">NoiseParams.cpp:41</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_ae24b14b229baeac6a3cad2b0c7f69a97"><div class="ttname"><a href="classinekf_1_1_noise_params.html#ae24b14b229baeac6a3cad2b0c7f69a97">inekf::NoiseParams::NoiseParams</a></div><div class="ttdeci">EIGEN_MAKE_ALIGNED_OPERATOR_NEW NoiseParams()</div><div class="ttdoc">噪声默认构造 Gyro-0.01 Accl-0.1 Gyrobias-1e-5 Acclbias-1e-4 landmark-0.1 Contact-0.1</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00023">NoiseParams.cpp:23</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_aeedc0c226e69a873f800e82511ba3237"><div class="ttname"><a href="classinekf_1_1_noise_params.html#aeedc0c226e69a873f800e82511ba3237">inekf::NoiseParams::getAccelerometerCov</a></div><div class="ttdeci">Eigen::Matrix3d getAccelerometerCov()</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00076">NoiseParams.cpp:76</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_aeffecde696593a21a10b82fa93651e88"><div class="ttname"><a href="classinekf_1_1_noise_params.html#aeffecde696593a21a10b82fa93651e88">inekf::NoiseParams::setAccelerometerBiasNoise</a></div><div class="ttdeci">void setAccelerometerBiasNoise(double std)</div><div class="ttdoc">设置 Qba 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00055">NoiseParams.cpp:55</a></div></div>
+<div class="ttc" id="anamespaceinekf_html"><div class="ttname"><a href="namespaceinekf.html">inekf</a></div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8h_source.html#l00028">InEKF.h:28</a></div></div>
+<div class="ttc" id="anamespaceinekf_html_a5477997213913edba08fa8819cbcb1d9"><div class="ttname"><a href="namespaceinekf.html#a5477997213913edba08fa8819cbcb1d9">inekf::operator&lt;&lt;</a></div><div class="ttdeci">ostream &amp; operator&lt;&lt;(ostream &amp;os, const Observation &amp;o)</div><div class="ttdoc">重载&lt;&lt;运算符,按格式输出 Y b H N PI</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8cpp_source.html#l00031">InEKF.cpp:31</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="_noise_params_8cpp.html">NoiseParams.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

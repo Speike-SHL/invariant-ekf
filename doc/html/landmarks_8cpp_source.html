@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>InEKF C++: src/examples/landmarks.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">InEKF C++
+   </div>
+   <div id="projectbrief">https://github.com/Speike-SHL/invariant-ekf</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="搜索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('landmarks_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">landmarks.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="landmarks_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ----------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Copyright 2018, Ross Hartley &lt;m.ross.hartley@gmail.com&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * All Rights Reserved</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * See LICENSE for the license information</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * -------------------------------------------------------------------------- */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;Eigen/Dense&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;boost/algorithm/string.hpp&gt;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="_in_e_k_f_8h.html">InEKF.h</a>&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="landmarks_8cpp.html#ae1cfdf8d0be2f1a544c4cfa885241bed">   22</a></span><span class="preprocessor">#define DT_MIN 1e-6</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="landmarks_8cpp.html#a5816b7cc63b81f2d154265d218ba5306">   23</a></span><span class="preprocessor">#define DT_MAX 1</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">   25</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a>(<span class="keyword">const</span> std::string &amp;s) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">return</span> atof(s.c_str());</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="landmarks_8cpp.html#aa468be7b00f47679f5c2f51f7b5d7224">   29</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="landmarks_8cpp.html#aa468be7b00f47679f5c2f51f7b5d7224">stoi98</a>(<span class="keyword">const</span> std::string &amp;s) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">return</span> atoi(s.c_str());</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>}</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">using namespace </span>std;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceinekf.html">inekf</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="landmarks_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">   36</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="landmarks_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a>() {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">//  ---- Initialize invariant extended Kalman filter ----- //</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_class" href="classinekf_1_1_robot_state.html">RobotState</a> initial_state; </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">// Initialize state mean</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    Eigen::Matrix3d R0;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    Eigen::Vector3d v0, p0, bg0, ba0;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    R0 &lt;&lt; 1, 0, 0, <span class="comment">// initial orientation</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>          0, -1, 0, <span class="comment">// IMU frame is rotated 90deg about the x-axis</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>          0, 0, -1;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    v0 &lt;&lt; 0,0,0; <span class="comment">// initial velocity</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    p0 &lt;&lt; 0,0,0; <span class="comment">// initial position</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    bg0 &lt;&lt; 0,0,0; <span class="comment">// initial gyroscope bias</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    ba0 &lt;&lt; 0,0,0; <span class="comment">// initial accelerometer bias</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    initial_state.<a class="code hl_function" href="classinekf_1_1_robot_state.html#a6c04a3f927e84a50d7e7d2866cc3b8e6">setRotation</a>(R0);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    initial_state.<a class="code hl_function" href="classinekf_1_1_robot_state.html#a9e30b7c807693040e1bdb5176d7aa275">setVelocity</a>(v0);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    initial_state.<a class="code hl_function" href="classinekf_1_1_robot_state.html#acec5e49e3d1cea9406e523a6b7a68a29">setPosition</a>(p0);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    initial_state.<a class="code hl_function" href="classinekf_1_1_robot_state.html#a3abe0c2904701cb82fc570fa4681928a">setGyroscopeBias</a>(bg0);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    initial_state.<a class="code hl_function" href="classinekf_1_1_robot_state.html#a5c372a80288cf4b0d0ae33eb9e43aead">setAccelerometerBias</a>(ba0);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// Initialize state covariance</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_class" href="classinekf_1_1_noise_params.html">NoiseParams</a> noise_params;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    noise_params.<a class="code hl_function" href="classinekf_1_1_noise_params.html#a2e73d369398a1239c52ba7e88dd4a57f">setGyroscopeNoise</a>(0.01);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    noise_params.<a class="code hl_function" href="classinekf_1_1_noise_params.html#ae07634aefe394e9a27d061778939894f">setAccelerometerNoise</a>(0.1);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    noise_params.<a class="code hl_function" href="classinekf_1_1_noise_params.html#a33fa9e87e45017b9200d68a39f91441a">setGyroscopeBiasNoise</a>(0.00001);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    noise_params.<a class="code hl_function" href="classinekf_1_1_noise_params.html#aeffecde696593a21a10b82fa93651e88">setAccelerometerBiasNoise</a>(0.0001);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    noise_params.<a class="code hl_function" href="classinekf_1_1_noise_params.html#acaf7276f4c4355c01736419064d4a72c">setLandmarkNoise</a>(0.1);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// Initialize filter</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_class" href="classinekf_1_1_in_e_k_f.html">InEKF</a> filter(initial_state, noise_params);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    cout &lt;&lt; <span class="stringliteral">&quot;Noise parameters are initialized to: \n&quot;</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    cout &lt;&lt; filter.<a class="code hl_function" href="classinekf_1_1_in_e_k_f.html#a0364d79235b9d6250b0d1e39cca0b998">getNoiseParams</a>() &lt;&lt; endl;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    cout &lt;&lt; <span class="stringliteral">&quot;Robot&#39;s state is initialized to: \n&quot;</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    cout &lt;&lt; filter.<a class="code hl_function" href="classinekf_1_1_in_e_k_f.html#a7af0e46cbde2df7b5977ef663ce9aeea">getState</a>() &lt;&lt; endl;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="comment">// --- Optionally initialize prior landmarks --- //</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <a class="code hl_typedef" href="namespaceinekf.html#a0f678ef41f5cbc38380071f6ffa3f7de">mapIntVector3d</a> prior_landmarks;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    Eigen::Vector3d p_wl;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">int</span> id;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="comment">// Landmark 1</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">id</span> = 1;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    p_wl &lt;&lt; 0,-1,0;  <span class="comment">//HACK 这是什么，怎么确定的，静态地标还是动态地标</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    prior_landmarks.insert(pair&lt;int,Eigen::Vector3d&gt; (<span class="keywordtype">id</span>, p_wl)); </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// // Landmark 2</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="comment">// id = 2;</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="comment">// p_wl &lt;&lt; 1,1,-0.5;</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="comment">// prior_landmarks.insert(pair&lt;int,Eigen::Vector3d&gt; (id, p_wl)); </span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">// Landmark 3</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">id</span> = 3;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    p_wl &lt;&lt; 2,-1,0.5;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    prior_landmarks.insert(pair&lt;int,Eigen::Vector3d&gt; (<span class="keywordtype">id</span>, p_wl)); </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="comment">// Store landmarks for localization</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    filter.<a class="code hl_function" href="classinekf_1_1_in_e_k_f.html#af2761911542bfb2baa77d80c1f4adf9c">setPriorLandmarks</a>(prior_landmarks); </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="comment">// Open data file</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    ifstream infile(<span class="stringliteral">&quot;./src/data/imu_landmark_measurements.txt&quot;</span>);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordtype">string</span> line;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    Eigen::Matrix&lt;double,6,1&gt; imu_measurement = Eigen::Matrix&lt;double,6,1&gt;::Zero();</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    Eigen::Matrix&lt;double,6,1&gt; imu_measurement_prev = Eigen::Matrix&lt;double,6,1&gt;::Zero();</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordtype">double</span> t = 0;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordtype">double</span> t_prev = 0;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="comment">// Loop through data file and read in measurements line by line</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">while</span> (getline(infile, line)){</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        vector&lt;string&gt; measurement;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        boost::split(measurement,line,boost::is_any_of(<span class="stringliteral">&quot; &quot;</span>));</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="comment">// Handle measurements</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keywordflow">if</span> (measurement[0].compare(<span class="stringliteral">&quot;IMU&quot;</span>)==0){</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            cout &lt;&lt; <span class="stringliteral">&quot;Received IMU Data, propagating state\n&quot;</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            assert((measurement.size()-2) == 6);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            t = <a class="code hl_function" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a>(measurement[1]); </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            imu_measurement &lt;&lt; <a class="code hl_function" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a>(measurement[2]), </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                               <a class="code hl_function" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a>(measurement[3]), </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                               <a class="code hl_function" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a>(measurement[4]),</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                               <a class="code hl_function" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a>(measurement[5]),</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                               <a class="code hl_function" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a>(measurement[6]),</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                               <a class="code hl_function" href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a>(measurement[7]);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="comment">// Propagate using IMU data</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="keywordtype">double</span> dt = t - t_prev;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>            <span class="keywordflow">if</span> (dt &gt; <a class="code hl_define" href="landmarks_8cpp.html#ae1cfdf8d0be2f1a544c4cfa885241bed">DT_MIN</a> &amp;&amp; dt &lt; <a class="code hl_define" href="landmarks_8cpp.html#a5816b7cc63b81f2d154265d218ba5306">DT_MAX</a>) {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                filter.<a class="code hl_function" href="classinekf_1_1_in_e_k_f.html#a79a5087d29490a59e08349e3aa2202b7">Propagate</a>(imu_measurement_prev, dt);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>            }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        }</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="comment">// LANDMARK time 地标id 地标相对位移p*3 地标id 地标相对位移p*3</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (measurement[0].compare(<span class="stringliteral">&quot;LANDMARK&quot;</span>)==0){  <span class="comment">//地标行</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            cout &lt;&lt; <span class="stringliteral">&quot;Received LANDMARK observation, correcting state\n&quot;</span>;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            assert((measurement.size()-2)%4 == 0);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            t = <a class="code hl_function" href="landmarks_8cpp.html#aa468be7b00f47679f5c2f51f7b5d7224">stoi98</a>(measurement[1]); </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            <a class="code hl_typedef" href="namespaceinekf.html#a01b6f3447c3dc3252d721ec7670a2532">vectorLandmarks</a> measured_landmarks;  <span class="comment">// 观测到的Landmark 对象列表&lt;id 地标相对body的p.3x1&gt;</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=2; i&lt;measurement.size(); i+=4) {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                <span class="keywordtype">int</span> <span class="keywordtype">id</span> = <a class="code hl_function" href="landmarks_8cpp.html#aa468be7b00f47679f5c2f51f7b5d7224">stoi98</a>(measurement[i]);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                Eigen::Vector3d p_bl;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                p_bl &lt;&lt; <a class="code hl_function" href="landmarks_8cpp.html#aa468be7b00f47679f5c2f51f7b5d7224">stoi98</a>(measurement[i+1]), </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                        <a class="code hl_function" href="landmarks_8cpp.html#aa468be7b00f47679f5c2f51f7b5d7224">stoi98</a>(measurement[i+2]), </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                        <a class="code hl_function" href="landmarks_8cpp.html#aa468be7b00f47679f5c2f51f7b5d7224">stoi98</a>(measurement[i+3]);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                <a class="code hl_class" href="classinekf_1_1_landmark.html">Landmark</a> landmark(<span class="keywordtype">id</span>, p_bl);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                measured_landmarks.push_back(landmark); </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            }</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            <span class="comment">// Correct state using landmark measurements</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            filter.<a class="code hl_function" href="classinekf_1_1_in_e_k_f.html#a51e9cffc541fb92fb1ca08343dc4a4cc">CorrectLandmarks</a>(measured_landmarks);  <span class="comment">//使用地标进行更新</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        }</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="comment">// Store previous timestamp</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        t_prev = t;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        imu_measurement_prev = imu_measurement;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    }</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="comment">// Print final state</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    cout &lt;&lt; filter.<a class="code hl_function" href="classinekf_1_1_in_e_k_f.html#a7af0e46cbde2df7b5977ef663ce9aeea">getState</a>() &lt;&lt; endl;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>}</div>
+<div class="ttc" id="a_in_e_k_f_8h_html"><div class="ttname"><a href="_in_e_k_f_8h.html">InEKF.h</a></div><div class="ttdoc">Header file for Invariant EKF</div></div>
+<div class="ttc" id="aclassinekf_1_1_in_e_k_f_html"><div class="ttname"><a href="classinekf_1_1_in_e_k_f.html">inekf::InEKF</a></div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8h_source.html#l00079">InEKF.h:79</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_in_e_k_f_html_a0364d79235b9d6250b0d1e39cca0b998"><div class="ttname"><a href="classinekf_1_1_in_e_k_f.html#a0364d79235b9d6250b0d1e39cca0b998">inekf::InEKF::getNoiseParams</a></div><div class="ttdeci">NoiseParams getNoiseParams()</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8cpp_source.html#l00067">InEKF.cpp:67</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_in_e_k_f_html_a51e9cffc541fb92fb1ca08343dc4a4cc"><div class="ttname"><a href="classinekf_1_1_in_e_k_f.html#a51e9cffc541fb92fb1ca08343dc4a4cc">inekf::InEKF::CorrectLandmarks</a></div><div class="ttdeci">void CorrectLandmarks(const vectorLandmarks &amp;measured_landmarks)</div><div class="ttdoc">Create Observation from vector of landmark measurements</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8cpp_source.html#l00285">InEKF.cpp:285</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_in_e_k_f_html_a79a5087d29490a59e08349e3aa2202b7"><div class="ttname"><a href="classinekf_1_1_in_e_k_f.html#a79a5087d29490a59e08349e3aa2202b7">inekf::InEKF::Propagate</a></div><div class="ttdeci">void Propagate(const Eigen::Matrix&lt; double, 6, 1 &gt; &amp;m, double dt)</div><div class="ttdoc">InEKF Propagation - 惯性数据</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8cpp_source.html#l00130">InEKF.cpp:130</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_in_e_k_f_html_a7af0e46cbde2df7b5977ef663ce9aeea"><div class="ttname"><a href="classinekf_1_1_in_e_k_f.html#a7af0e46cbde2df7b5977ef663ce9aeea">inekf::InEKF::getState</a></div><div class="ttdeci">RobotState getState()</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8cpp_source.html#l00057">InEKF.cpp:57</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_in_e_k_f_html_af2761911542bfb2baa77d80c1f4adf9c"><div class="ttname"><a href="classinekf_1_1_in_e_k_f.html#af2761911542bfb2baa77d80c1f4adf9c">inekf::InEKF::setPriorLandmarks</a></div><div class="ttdeci">void setPriorLandmarks(const mapIntVector3d &amp;prior_landmarks)</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8cpp_source.html#l00082">InEKF.cpp:82</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_landmark_html"><div class="ttname"><a href="classinekf_1_1_landmark.html">inekf::Landmark</a></div><div class="ttdoc">数据类型,包含地标id,3x1位移</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8h_source.html#l00042">InEKF.h:42</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html"><div class="ttname"><a href="classinekf_1_1_noise_params.html">inekf::NoiseParams</a></div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8h_source.html#l00020">NoiseParams.h:20</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a2e73d369398a1239c52ba7e88dd4a57f"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a2e73d369398a1239c52ba7e88dd4a57f">inekf::NoiseParams::setGyroscopeNoise</a></div><div class="ttdeci">void setGyroscopeNoise(double std)</div><div class="ttdoc">设置 Qg 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00034">NoiseParams.cpp:34</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_a33fa9e87e45017b9200d68a39f91441a"><div class="ttname"><a href="classinekf_1_1_noise_params.html#a33fa9e87e45017b9200d68a39f91441a">inekf::NoiseParams::setGyroscopeBiasNoise</a></div><div class="ttdeci">void setGyroscopeBiasNoise(double std)</div><div class="ttdoc">设置 Qbg 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00048">NoiseParams.cpp:48</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_acaf7276f4c4355c01736419064d4a72c"><div class="ttname"><a href="classinekf_1_1_noise_params.html#acaf7276f4c4355c01736419064d4a72c">inekf::NoiseParams::setLandmarkNoise</a></div><div class="ttdeci">void setLandmarkNoise(double std)</div><div class="ttdoc">设置 Ql 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00062">NoiseParams.cpp:62</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_ae07634aefe394e9a27d061778939894f"><div class="ttname"><a href="classinekf_1_1_noise_params.html#ae07634aefe394e9a27d061778939894f">inekf::NoiseParams::setAccelerometerNoise</a></div><div class="ttdeci">void setAccelerometerNoise(double std)</div><div class="ttdoc">设置 Qa 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00041">NoiseParams.cpp:41</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_noise_params_html_aeffecde696593a21a10b82fa93651e88"><div class="ttname"><a href="classinekf_1_1_noise_params.html#aeffecde696593a21a10b82fa93651e88">inekf::NoiseParams::setAccelerometerBiasNoise</a></div><div class="ttdeci">void setAccelerometerBiasNoise(double std)</div><div class="ttdoc">设置 Qba 3x3, 每个对角都为std^2</div><div class="ttdef"><b>Definition:</b> <a href="_noise_params_8cpp_source.html#l00055">NoiseParams.cpp:55</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_robot_state_html"><div class="ttname"><a href="classinekf_1_1_robot_state.html">inekf::RobotState</a></div><div class="ttdef"><b>Definition:</b> <a href="_robot_state_8h_source.html#l00024">RobotState.h:24</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_robot_state_html_a3abe0c2904701cb82fc570fa4681928a"><div class="ttname"><a href="classinekf_1_1_robot_state.html#a3abe0c2904701cb82fc570fa4681928a">inekf::RobotState::setGyroscopeBias</a></div><div class="ttdeci">void setGyroscopeBias(const Eigen::Vector3d &amp;bg)</div><div class="ttdef"><b>Definition:</b> <a href="_robot_state_8cpp_source.html#l00186">RobotState.cpp:186</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_robot_state_html_a5c372a80288cf4b0d0ae33eb9e43aead"><div class="ttname"><a href="classinekf_1_1_robot_state.html#a5c372a80288cf4b0d0ae33eb9e43aead">inekf::RobotState::setAccelerometerBias</a></div><div class="ttdeci">void setAccelerometerBias(const Eigen::Vector3d &amp;ba)</div><div class="ttdef"><b>Definition:</b> <a href="_robot_state_8cpp_source.html#l00192">RobotState.cpp:192</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_robot_state_html_a6c04a3f927e84a50d7e7d2866cc3b8e6"><div class="ttname"><a href="classinekf_1_1_robot_state.html#a6c04a3f927e84a50d7e7d2866cc3b8e6">inekf::RobotState::setRotation</a></div><div class="ttdeci">void setRotation(const Eigen::Matrix3d &amp;R)</div><div class="ttdef"><b>Definition:</b> <a href="_robot_state_8cpp_source.html#l00168">RobotState.cpp:168</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_robot_state_html_a9e30b7c807693040e1bdb5176d7aa275"><div class="ttname"><a href="classinekf_1_1_robot_state.html#a9e30b7c807693040e1bdb5176d7aa275">inekf::RobotState::setVelocity</a></div><div class="ttdeci">void setVelocity(const Eigen::Vector3d &amp;v)</div><div class="ttdef"><b>Definition:</b> <a href="_robot_state_8cpp_source.html#l00174">RobotState.cpp:174</a></div></div>
+<div class="ttc" id="aclassinekf_1_1_robot_state_html_acec5e49e3d1cea9406e523a6b7a68a29"><div class="ttname"><a href="classinekf_1_1_robot_state.html#acec5e49e3d1cea9406e523a6b7a68a29">inekf::RobotState::setPosition</a></div><div class="ttdeci">void setPosition(const Eigen::Vector3d &amp;p)</div><div class="ttdef"><b>Definition:</b> <a href="_robot_state_8cpp_source.html#l00180">RobotState.cpp:180</a></div></div>
+<div class="ttc" id="alandmarks_8cpp_html_a5816b7cc63b81f2d154265d218ba5306"><div class="ttname"><a href="landmarks_8cpp.html#a5816b7cc63b81f2d154265d218ba5306">DT_MAX</a></div><div class="ttdeci">#define DT_MAX</div><div class="ttdef"><b>Definition:</b> <a href="landmarks_8cpp_source.html#l00023">landmarks.cpp:23</a></div></div>
+<div class="ttc" id="alandmarks_8cpp_html_a9d1236ae6c7ba1a2ab7b336924e6606c"><div class="ttname"><a href="landmarks_8cpp.html#a9d1236ae6c7ba1a2ab7b336924e6606c">stod98</a></div><div class="ttdeci">double stod98(const std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="landmarks_8cpp_source.html#l00025">landmarks.cpp:25</a></div></div>
+<div class="ttc" id="alandmarks_8cpp_html_aa468be7b00f47679f5c2f51f7b5d7224"><div class="ttname"><a href="landmarks_8cpp.html#aa468be7b00f47679f5c2f51f7b5d7224">stoi98</a></div><div class="ttdeci">int stoi98(const std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="landmarks_8cpp_source.html#l00029">landmarks.cpp:29</a></div></div>
+<div class="ttc" id="alandmarks_8cpp_html_ae1cfdf8d0be2f1a544c4cfa885241bed"><div class="ttname"><a href="landmarks_8cpp.html#ae1cfdf8d0be2f1a544c4cfa885241bed">DT_MIN</a></div><div class="ttdeci">#define DT_MIN</div><div class="ttdef"><b>Definition:</b> <a href="landmarks_8cpp_source.html#l00022">landmarks.cpp:22</a></div></div>
+<div class="ttc" id="alandmarks_8cpp_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="landmarks_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="landmarks_8cpp_source.html#l00036">landmarks.cpp:36</a></div></div>
+<div class="ttc" id="anamespaceinekf_html"><div class="ttname"><a href="namespaceinekf.html">inekf</a></div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8h_source.html#l00028">InEKF.h:28</a></div></div>
+<div class="ttc" id="anamespaceinekf_html_a01b6f3447c3dc3252d721ec7670a2532"><div class="ttname"><a href="namespaceinekf.html#a01b6f3447c3dc3252d721ec7670a2532">inekf::vectorLandmarks</a></div><div class="ttdeci">std::vector&lt; Landmark, Eigen::aligned_allocator&lt; Landmark &gt; &gt; vectorLandmarks</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8h_source.html#l00054">InEKF.h:54</a></div></div>
+<div class="ttc" id="anamespaceinekf_html_a0f678ef41f5cbc38380071f6ffa3f7de"><div class="ttname"><a href="namespaceinekf.html#a0f678ef41f5cbc38380071f6ffa3f7de">inekf::mapIntVector3d</a></div><div class="ttdeci">std::map&lt; int, Eigen::Vector3d, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Vector3d &gt; &gt; &gt; mapIntVector3d</div><div class="ttdef"><b>Definition:</b> <a href="_in_e_k_f_8h_source.html#l00052">InEKF.h:52</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_e931c1a3f0014e624d0645a271726ad2.html">examples</a></li><li class="navelem"><a class="el" href="landmarks_8cpp.html">landmarks.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

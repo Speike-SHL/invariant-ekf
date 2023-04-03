@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>InEKF C++: inekf::Observation类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">InEKF C++
+   </div>
+   <div id="projectbrief">https://github.com/Speike-SHL/invariant-ekf</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="搜索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classinekf_1_1_observation.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="#friends">友元</a> &#124;
+<a href="classinekf_1_1_observation-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">inekf::Observation类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>观测类,包含Y(观测) b H(观测矩阵) N(观测噪声协方差) PI(选择矩阵)  
+ <a href="classinekf_1_1_observation.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_in_e_k_f_8h_source.html">InEKF.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a5ef235bb3a6f01771d70949a1ac53ac5"><td class="memItemLeft" align="right" valign="top">EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html#a5ef235bb3a6f01771d70949a1ac53ac5">Observation</a> (Eigen::VectorXd &amp;<a class="el" href="classinekf_1_1_observation.html#ae16f3aef1a4dc95f188f9ef79f965201">Y</a>, Eigen::VectorXd &amp;<a class="el" href="classinekf_1_1_observation.html#a2e08767a48f9ae9c510b9007d0960437">b</a>, Eigen::MatrixXd &amp;<a class="el" href="classinekf_1_1_observation.html#a08dcc77c88e198b599912bf23e425f6f">H</a>, Eigen::MatrixXd &amp;<a class="el" href="classinekf_1_1_observation.html#a305449965591083693372716e367f2e1">N</a>, Eigen::MatrixXd &amp;<a class="el" href="classinekf_1_1_observation.html#a964c91b5d87d033db9f79983126a58f7">PI</a>)</td></tr>
+<tr class="separator:a5ef235bb3a6f01771d70949a1ac53ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb378ff2452e9ee0df89335b07d3c94e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html#abb378ff2452e9ee0df89335b07d3c94e">empty</a> ()</td></tr>
+<tr class="memdesc:abb378ff2452e9ee0df89335b07d3c94e"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查观测Y中是否为空,空返回1,非空返回0  <br /></td></tr>
+<tr class="separator:abb378ff2452e9ee0df89335b07d3c94e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:ae16f3aef1a4dc95f188f9ef79f965201"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html#ae16f3aef1a4dc95f188f9ef79f965201">Y</a></td></tr>
+<tr class="separator:ae16f3aef1a4dc95f188f9ef79f965201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e08767a48f9ae9c510b9007d0960437"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html#a2e08767a48f9ae9c510b9007d0960437">b</a></td></tr>
+<tr class="separator:a2e08767a48f9ae9c510b9007d0960437"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08dcc77c88e198b599912bf23e425f6f"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html#a08dcc77c88e198b599912bf23e425f6f">H</a></td></tr>
+<tr class="separator:a08dcc77c88e198b599912bf23e425f6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a305449965591083693372716e367f2e1"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html#a305449965591083693372716e367f2e1">N</a></td></tr>
+<tr class="separator:a305449965591083693372716e367f2e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a964c91b5d87d033db9f79983126a58f7"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html#a964c91b5d87d033db9f79983126a58f7">PI</a></td></tr>
+<tr class="separator:a964c91b5d87d033db9f79983126a58f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:af10d48419e1d13e0bb6291f0ddac5d18"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html#af10d48419e1d13e0bb6291f0ddac5d18">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classinekf_1_1_observation.html">Observation</a> &amp;o)</td></tr>
+<tr class="separator:af10d48419e1d13e0bb6291f0ddac5d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>观测类,包含Y(观测) b H(观测矩阵) N(观测噪声协方差) PI(选择矩阵) </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a5ef235bb3a6f01771d70949a1ac53ac5" name="a5ef235bb3a6f01771d70949a1ac53ac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ef235bb3a6f01771d70949a1ac53ac5">&#9670;&#160;</a></span>Observation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">inekf::Observation::Observation </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>Y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>H</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>PI</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="abb378ff2452e9ee0df89335b07d3c94e" name="abb378ff2452e9ee0df89335b07d3c94e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb378ff2452e9ee0df89335b07d3c94e">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool inekf::Observation::empty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查观测Y中是否为空,空返回1,非空返回0 </p>
+
+</div>
+</div>
+<h2 class="groupheader">友元及相关函数文档</h2>
+<a id="af10d48419e1d13e0bb6291f0ddac5d18" name="af10d48419e1d13e0bb6291f0ddac5d18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af10d48419e1d13e0bb6291f0ddac5d18">&#9670;&#160;</a></span>operator&lt;&lt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream &amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classinekf_1_1_observation.html">Observation</a> &amp;&#160;</td>
+          <td class="paramname"><em>o</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a2e08767a48f9ae9c510b9007d0960437" name="a2e08767a48f9ae9c510b9007d0960437"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e08767a48f9ae9c510b9007d0960437">&#9670;&#160;</a></span>b</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorXd inekf::Observation::b</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a08dcc77c88e198b599912bf23e425f6f" name="a08dcc77c88e198b599912bf23e425f6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08dcc77c88e198b599912bf23e425f6f">&#9670;&#160;</a></span>H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd inekf::Observation::H</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a305449965591083693372716e367f2e1" name="a305449965591083693372716e367f2e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a305449965591083693372716e367f2e1">&#9670;&#160;</a></span>N</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd inekf::Observation::N</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a964c91b5d87d033db9f79983126a58f7" name="a964c91b5d87d033db9f79983126a58f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a964c91b5d87d033db9f79983126a58f7">&#9670;&#160;</a></span>PI</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd inekf::Observation::PI</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae16f3aef1a4dc95f188f9ef79f965201" name="ae16f3aef1a4dc95f188f9ef79f965201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae16f3aef1a4dc95f188f9ef79f965201">&#9670;&#160;</a></span>Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorXd inekf::Observation::Y</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceinekf.html">inekf</a></li><li class="navelem"><a class="el" href="classinekf_1_1_observation.html">Observation</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

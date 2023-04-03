@@ -1,0 +1,516 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>InEKF C++: inekf 命名空间参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">InEKF C++
+   </div>
+   <div id="projectbrief">https://github.com/Speike-SHL/invariant-ekf</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="搜索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('namespaceinekf.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#typedef-members">类型定义</a> &#124;
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle"><div class="title">inekf 命名空间参考</div></div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_in_e_k_f.html">InEKF</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据类型,包含腿id,4x4位姿,6x6协方差  <a href="classinekf_1_1_kinematics.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_landmark.html">Landmark</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据类型,包含地标id,3x1位移  <a href="classinekf_1_1_landmark.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_noise_params.html">NoiseParams</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_observation.html">Observation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">观测类,包含Y(观测) b H(观测矩阵) N(观测噪声协方差) PI(选择矩阵)  <a href="classinekf_1_1_observation.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinekf_1_1_robot_state.html">RobotState</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:a0f678ef41f5cbc38380071f6ffa3f7de"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; int, Eigen::Vector3d, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; const int, Eigen::Vector3d &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a0f678ef41f5cbc38380071f6ffa3f7de">mapIntVector3d</a></td></tr>
+<tr class="separator:a0f678ef41f5cbc38380071f6ffa3f7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add3c549644464280928ac0817c6ef9c1"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; int, Eigen::Vector3d, std::less&lt; int &gt;, Eigen::aligned_allocator&lt; std::pair&lt; constint, Eigen::Vector3d &gt; &gt; &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#add3c549644464280928ac0817c6ef9c1">mapIntVector3dIterator</a></td></tr>
+<tr class="separator:add3c549644464280928ac0817c6ef9c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01b6f3447c3dc3252d721ec7670a2532"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="classinekf_1_1_landmark.html">Landmark</a>, Eigen::aligned_allocator&lt; <a class="el" href="classinekf_1_1_landmark.html">Landmark</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a01b6f3447c3dc3252d721ec7670a2532">vectorLandmarks</a></td></tr>
+<tr class="separator:a01b6f3447c3dc3252d721ec7670a2532"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addff3758a6708eba725eae91279875a2"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="classinekf_1_1_landmark.html">Landmark</a>, Eigen::aligned_allocator&lt; <a class="el" href="classinekf_1_1_landmark.html">Landmark</a> &gt; &gt;::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#addff3758a6708eba725eae91279875a2">vectorLandmarksIterator</a></td></tr>
+<tr class="separator:addff3758a6708eba725eae91279875a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9865452b9dd68fe857c1fcc4ef7f59fe"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a>, Eigen::aligned_allocator&lt; <a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a9865452b9dd68fe857c1fcc4ef7f59fe">vectorKinematics</a></td></tr>
+<tr class="separator:a9865452b9dd68fe857c1fcc4ef7f59fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f6a98c0fb6839ee2b9dcd1583dfc57"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a>, Eigen::aligned_allocator&lt; <a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a> &gt; &gt;::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a59f6a98c0fb6839ee2b9dcd1583dfc57">vectorKinematicsIterator</a></td></tr>
+<tr class="separator:a59f6a98c0fb6839ee2b9dcd1583dfc57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ad8fd71f2989b122c5aa76f8cc53ba80d"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#ad8fd71f2989b122c5aa76f8cc53ba80d">skew</a> (const Eigen::Vector3d &amp;v)</td></tr>
+<tr class="memdesc:ad8fd71f2989b122c5aa76f8cc53ba80d"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回向量v的反对称阵  <br /></td></tr>
+<tr class="separator:ad8fd71f2989b122c5aa76f8cc53ba80d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae74f69e8f36b87d6dfbad08a35cc35bb"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#ae74f69e8f36b87d6dfbad08a35cc35bb">Exp_SO3</a> (const Eigen::Vector3d &amp;w)</td></tr>
+<tr class="memdesc:ae74f69e8f36b87d6dfbad08a35cc35bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">指数映射,三维向量到旋转矩阵  <br /></td></tr>
+<tr class="separator:ae74f69e8f36b87d6dfbad08a35cc35bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b6ca2c7daa00e7cd98a9996ced6df6f"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a5b6ca2c7daa00e7cd98a9996ced6df6f">Exp_SEK3</a> (const Eigen::VectorXd &amp;v)</td></tr>
+<tr class="memdesc:a5b6ca2c7daa00e7cd98a9996ced6df6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">SEK3的指数映射  <br /></td></tr>
+<tr class="separator:a5b6ca2c7daa00e7cd98a9996ced6df6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe7a3d2eaec0d2b2b264a3f69940d685"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#afe7a3d2eaec0d2b2b264a3f69940d685">Adjoint_SEK3</a> (const Eigen::MatrixXd &amp;X)</td></tr>
+<tr class="memdesc:afe7a3d2eaec0d2b2b264a3f69940d685"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回SEK3的伴随  <br /></td></tr>
+<tr class="separator:afe7a3d2eaec0d2b2b264a3f69940d685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17c7e6b8621e8f0e6c82194b9bad634e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a17c7e6b8621e8f0e6c82194b9bad634e">removeRowAndColumn</a> (Eigen::MatrixXd &amp;M, int index)</td></tr>
+<tr class="memdesc:a17c7e6b8621e8f0e6c82194b9bad634e"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除矩阵M的第index行和index列,从零开始  <br /></td></tr>
+<tr class="separator:a17c7e6b8621e8f0e6c82194b9bad634e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5477997213913edba08fa8819cbcb1d9"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a5477997213913edba08fa8819cbcb1d9">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classinekf_1_1_observation.html">Observation</a> &amp;o)</td></tr>
+<tr class="memdesc:a5477997213913edba08fa8819cbcb1d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载&lt;&lt;运算符,按格式输出 Y b H N PI  <br /></td></tr>
+<tr class="separator:a5477997213913edba08fa8819cbcb1d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6968dcb92f0f312650cdfe6297b34f63"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a6968dcb92f0f312650cdfe6297b34f63">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classinekf_1_1_noise_params.html">NoiseParams</a> &amp;p)</td></tr>
+<tr class="memdesc:a6968dcb92f0f312650cdfe6297b34f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">NoiseParams重载&lt;&lt;运算符, 打印输出当前对象的Qg,Qa,Qbg,Qba,Ql,Qc  <br /></td></tr>
+<tr class="separator:a6968dcb92f0f312650cdfe6297b34f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5288a44f9425f91f5361f1bc030f8c89"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#a5288a44f9425f91f5361f1bc030f8c89">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classinekf_1_1_robot_state.html">RobotState</a> &amp;s)</td></tr>
+<tr class="memdesc:a5288a44f9425f91f5361f1bc030f8c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">RobotState类重载&lt;&lt;输出当前状态, 打印X、theta、P的当前值  <br /></td></tr>
+<tr class="separator:a5288a44f9425f91f5361f1bc030f8c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:af47e6f35bf85685bf4f7ee2e7251cd7e"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinekf.html#af47e6f35bf85685bf4f7ee2e7251cd7e">TOLERANCE</a> = 1e-10</td></tr>
+<tr class="separator:af47e6f35bf85685bf4f7ee2e7251cd7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">类型定义说明</h2>
+<a id="a0f678ef41f5cbc38380071f6ffa3f7de" name="a0f678ef41f5cbc38380071f6ffa3f7de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f678ef41f5cbc38380071f6ffa3f7de">&#9670;&#160;</a></span>mapIntVector3d</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::map&lt;int, Eigen::Vector3d, std::less&lt;int&gt;, Eigen::aligned_allocator&lt;std::pair&lt;const int, Eigen::Vector3d&gt; &gt; &gt; <a class="el" href="namespaceinekf.html#a0f678ef41f5cbc38380071f6ffa3f7de">inekf::mapIntVector3d</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add3c549644464280928ac0817c6ef9c1" name="add3c549644464280928ac0817c6ef9c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add3c549644464280928ac0817c6ef9c1">&#9670;&#160;</a></span>mapIntVector3dIterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::map&lt;int,Eigen::Vector3d,std::less&lt;int&gt;,Eigen::aligned_allocator&lt;std::pair&lt;constint,Eigen::Vector3d&gt;&gt;&gt;::iterator <a class="el" href="namespaceinekf.html#add3c549644464280928ac0817c6ef9c1">inekf::mapIntVector3dIterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9865452b9dd68fe857c1fcc4ef7f59fe" name="a9865452b9dd68fe857c1fcc4ef7f59fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9865452b9dd68fe857c1fcc4ef7f59fe">&#9670;&#160;</a></span>vectorKinematics</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::vector&lt;<a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a>, Eigen::aligned_allocator&lt;<a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a>&gt; &gt; <a class="el" href="namespaceinekf.html#a9865452b9dd68fe857c1fcc4ef7f59fe">inekf::vectorKinematics</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a59f6a98c0fb6839ee2b9dcd1583dfc57" name="a59f6a98c0fb6839ee2b9dcd1583dfc57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59f6a98c0fb6839ee2b9dcd1583dfc57">&#9670;&#160;</a></span>vectorKinematicsIterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::vector&lt;<a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a>,Eigen::aligned_allocator&lt;<a class="el" href="classinekf_1_1_kinematics.html">Kinematics</a>&gt;&gt;::const_iterator <a class="el" href="namespaceinekf.html#a59f6a98c0fb6839ee2b9dcd1583dfc57">inekf::vectorKinematicsIterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a01b6f3447c3dc3252d721ec7670a2532" name="a01b6f3447c3dc3252d721ec7670a2532"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01b6f3447c3dc3252d721ec7670a2532">&#9670;&#160;</a></span>vectorLandmarks</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::vector&lt;<a class="el" href="classinekf_1_1_landmark.html">Landmark</a>, Eigen::aligned_allocator&lt;<a class="el" href="classinekf_1_1_landmark.html">Landmark</a>&gt; &gt; <a class="el" href="namespaceinekf.html#a01b6f3447c3dc3252d721ec7670a2532">inekf::vectorLandmarks</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="addff3758a6708eba725eae91279875a2" name="addff3758a6708eba725eae91279875a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addff3758a6708eba725eae91279875a2">&#9670;&#160;</a></span>vectorLandmarksIterator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::vector&lt;<a class="el" href="classinekf_1_1_landmark.html">Landmark</a>,Eigen::aligned_allocator&lt;<a class="el" href="classinekf_1_1_landmark.html">Landmark</a>&gt;&gt;::const_iterator <a class="el" href="namespaceinekf.html#addff3758a6708eba725eae91279875a2">inekf::vectorLandmarksIterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a id="afe7a3d2eaec0d2b2b264a3f69940d685" name="afe7a3d2eaec0d2b2b264a3f69940d685"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe7a3d2eaec0d2b2b264a3f69940d685">&#9670;&#160;</a></span>Adjoint_SEK3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd inekf::Adjoint_SEK3 </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>X</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回SEK3的伴随 </p>
+<p class="formulaDsp">
+\[
+\left[ \begin{matrix}
+    \mathrm{R}&amp;     \mathrm{v}&amp;     \mathrm{p}\\
+    0&amp;      1&amp;      0\\
+    0&amp;      0&amp;      1\\
+\end{matrix} \right] \rightarrow \left[ \begin{matrix}
+    \mathrm{R}&amp;     0&amp;      0\\
+    \mathrm{v}^{\land}\mathrm{R}&amp;       \mathrm{R}&amp;     0\\
+    \mathrm{p}^{\land}\mathrm{R}&amp;       0&amp;      \mathrm{R}\\
+\end{matrix} \right] 
+\]
+</p>
+ 
+</div>
+</div>
+<a id="a5b6ca2c7daa00e7cd98a9996ced6df6f" name="a5b6ca2c7daa00e7cd98a9996ced6df6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b6ca2c7daa00e7cd98a9996ced6df6f">&#9670;&#160;</a></span>Exp_SEK3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd inekf::Exp_SEK3 </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>SEK3的指数映射 </p>
+<p class="formulaDsp">
+\[
+\mathrm{Exp}\left( \xi \right) =\left[ \begin{matrix}
+    R&amp;      J_l\xi _v&amp;      J_l\xi _p\\
+    0&amp;      1&amp;      0\\
+    0&amp;      0&amp;      1\\
+\end{matrix} \right] 
+\]
+</p>
+ 
+</div>
+</div>
+<a id="ae74f69e8f36b87d6dfbad08a35cc35bb" name="ae74f69e8f36b87d6dfbad08a35cc35bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae74f69e8f36b87d6dfbad08a35cc35bb">&#9670;&#160;</a></span>Exp_SO3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Matrix3d inekf::Exp_SO3 </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>w</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>指数映射,三维向量到旋转矩阵 </p>
+
+</div>
+</div>
+<a id="a5477997213913edba08fa8819cbcb1d9" name="a5477997213913edba08fa8819cbcb1d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5477997213913edba08fa8819cbcb1d9">&#9670;&#160;</a></span>operator&lt;&lt;() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ostream &amp; inekf::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classinekf_1_1_observation.html">Observation</a> &amp;&#160;</td>
+          <td class="paramname"><em>o</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重载&lt;&lt;运算符,按格式输出 Y b H N PI </p>
+
+</div>
+</div>
+<a id="a5288a44f9425f91f5361f1bc030f8c89" name="a5288a44f9425f91f5361f1bc030f8c89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5288a44f9425f91f5361f1bc030f8c89">&#9670;&#160;</a></span>operator&lt;&lt;() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ostream &amp; inekf::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classinekf_1_1_robot_state.html">RobotState</a> &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>RobotState类重载&lt;&lt;输出当前状态, 打印X、theta、P的当前值 </p>
+
+</div>
+</div>
+<a id="a6968dcb92f0f312650cdfe6297b34f63" name="a6968dcb92f0f312650cdfe6297b34f63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6968dcb92f0f312650cdfe6297b34f63">&#9670;&#160;</a></span>operator&lt;&lt;() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream &amp; inekf::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classinekf_1_1_noise_params.html">NoiseParams</a> &amp;&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>NoiseParams重载&lt;&lt;运算符, 打印输出当前对象的Qg,Qa,Qbg,Qba,Ql,Qc </p>
+
+</div>
+</div>
+<a id="a17c7e6b8621e8f0e6c82194b9bad634e" name="a17c7e6b8621e8f0e6c82194b9bad634e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17c7e6b8621e8f0e6c82194b9bad634e">&#9670;&#160;</a></span>removeRowAndColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void inekf::removeRowAndColumn </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>删除矩阵M的第index行和index列,从零开始 </p>
+
+</div>
+</div>
+<a id="ad8fd71f2989b122c5aa76f8cc53ba80d" name="ad8fd71f2989b122c5aa76f8cc53ba80d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8fd71f2989b122c5aa76f8cc53ba80d">&#9670;&#160;</a></span>skew()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Matrix3d inekf::skew </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回向量v的反对称阵 </p>
+
+</div>
+</div>
+<h2 class="groupheader">变量说明</h2>
+<a id="af47e6f35bf85685bf4f7ee2e7251cd7e" name="af47e6f35bf85685bf4f7ee2e7251cd7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af47e6f35bf85685bf4f7ee2e7251cd7e">&#9670;&#160;</a></span>TOLERANCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double inekf::TOLERANCE = 1e-10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceinekf.html">inekf</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>
