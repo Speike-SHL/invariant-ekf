@@ -104,11 +104,11 @@ class InEKF {
     private:
         RobotState state_;
         NoiseParams noise_params_;
-        const Eigen::Vector3d g_; // Gravity
-        mapIntVector3d prior_landmarks_;    
-        std::map<int,int> estimated_landmarks_;
-        std::map<int,bool> contacts_;   // 储存腿id和接触状态
-        std::map<int,int> estimated_contact_positions_;   // 记录已经加入状态估计的腿的(id, 在X阵中的位置)
+        const Eigen::Vector3d g_; /// Gravity
+        mapIntVector3d prior_landmarks_;    /// 静态地标<id p_wl>
+        std::map<int,int> estimated_landmarks_;   /// 动态地标<id 在状态X中的索引>
+        std::map<int,bool> contacts_;   /// 储存腿id和接触状态
+        std::map<int,int> estimated_contact_positions_;   /// 记录已经加入状态估计的腿的(id, 在X阵中的索引)
 #if INEKF_USE_MUTEX
         std::mutex estimated_contacts_mutex_;
         std::mutex estimated_landmarks_mutex_;

@@ -126,7 +126,6 @@ std::map<int,bool> InEKF::getContacts() {
     return contacts_; 
 }
 
-
 /// InEKF Propagation - 惯性数据
 void InEKF::Propagate(const Eigen::Matrix<double,6,1>& m, double dt) {
 
@@ -139,7 +138,7 @@ void InEKF::Propagate(const Eigen::Matrix<double,6,1>& m, double dt) {
     /// @f]
     Eigen::Vector3d w = m.head(3) - state_.getGyroscopeBias();    // Angular Velocity
     Eigen::Vector3d a = m.tail(3) - state_.getAccelerometerBias(); // Linear Acceleration
-    
+
     Eigen::MatrixXd X = state_.getX();
     Eigen::MatrixXd P = state_.getP();
 
@@ -173,7 +172,7 @@ void InEKF::Propagate(const Eigen::Matrix<double,6,1>& m, double dt) {
 	/// \vdots&		\vdots&		\vdots&		\ddots&		\vdots&		\vdots\\
 	/// 0&		0&		0&		\cdots&		0&		0\\
 	/// 0&		0&		0&		\cdots&		0&		0\\
-    /// \end{matrix} \right] _{\mathrm{k}, \left( 15+3\mathrm{n} \right) \times \left( 15+3\mathrm{n} \right)}@f]
+    /// \end{matrix} \right] _{\mathrm{k},  \left( 15+3\mathrm{n} \right) \times \left( 15+3\mathrm{n} \right)}@f]
     int dimX = state_.dimX();
     int dimP = state_.dimP();
     int dimTheta = state_.dimTheta();
@@ -187,7 +186,7 @@ void InEKF::Propagate(const Eigen::Matrix<double,6,1>& m, double dt) {
     for (int i=3; i<dimX; ++i) {
         A.block<3,3>(3*i-6,dimP-dimTheta) = -skew(X.block<3,1>(0,i))*R;
     }
-    cout << A << endl;
+    // cout << A << endl;   // XXX:
 
     /// 4.计算过程噪声协方差矩阵Qk,中间可能会有Contact项
     /// @f[\mathrm{Q}_{\mathrm{k}}=\left[ \begin{matrix}
@@ -201,13 +200,13 @@ void InEKF::Propagate(const Eigen::Matrix<double,6,1>& m, double dt) {
     Eigen::MatrixXd Qk = Eigen::MatrixXd::Zero(dimP,dimP); // Landmark noise terms will remain zero
     Qk.block<3,3>(0,0) = noise_params_.getGyroscopeCov(); 
     Qk.block<3,3>(3,3) = noise_params_.getAccelerometerCov();
-    //HACK 下面不是很懂，不是只用了IMU数据吗, 第一个例子中没用到这个地方
+    //HACK 下面不是很懂，为什么不对estimated_landmarks_操作
     for(map<int,int>::iterator it=estimated_contact_positions_.begin(); it!=estimated_contact_positions_.end(); ++it) {
         Qk.block<3,3>(3+3*(it->second-3),3+3*(it->second-3)) = noise_params_.getContactCov(); // Contact noise terms
     }
     Qk.block<3,3>(dimP-dimTheta,dimP-dimTheta) = noise_params_.getGyroscopeBiasCov();
     Qk.block<3,3>(dimP-dimTheta+3,dimP-dimTheta+3) = noise_params_.getAccelerometerBiasCov();
-    cout << Qk << endl;
+    // cout << Qk << endl;  // XXX:
 
     /// 5.对系统误差协方差矩阵计算公式离散化并更新系统误差协方差阵
     /// @f[\begin{array}{l}
@@ -298,7 +297,7 @@ void InEKF::CorrectLandmarks(const vectorLandmarks &measured_landmarks)
     vectorLandmarks new_landmarks;  // 新增的landmarks列表
     vector<int> used_landmark_ids;  // 储存处理过的landmark id,避免一帧数据有相同id的lm
 
-    /// 1.循环对measured_landmarks中每一个地标观测进行操作
+    /// 1.循环对measured_landmarks中每一个地标观测id进行操作
     for (vectorLandmarksIterator it = measured_landmarks.begin(); it != measured_landmarks.end(); ++it)
     {
         /// 2.如果这一帧消息中包含了多个同样id的数据,则删除并跳过该帧(因为这会导致 InEKF::Correct 中出现奇点问题)
@@ -312,9 +311,10 @@ void InEKF::CorrectLandmarks(const vectorLandmarks &measured_landmarks)
             used_landmark_ids.push_back(it->id);  // 将id添加到处理过的列表中,下面对此id的观测数据进行处理
         }
 
-        // See if we can find id in prior_landmarks or estimated_landmarks
+        /// 3.从 prior_landmarks_ 和 estimated_landmarks_ 中查找该观测id
         mapIntVector3dIterator it_prior = prior_landmarks_.find(it->id);
         map<int, int>::iterator it_estimated = estimated_landmarks_.find(it->id);
+        /// 3.1 如果在 prior_landmarks_ 中找到该id, 则作为静态地标构造观测进行更新
         if (it_prior != prior_landmarks_.end())
         {
             // Found in prior landmark set
@@ -322,52 +322,87 @@ void InEKF::CorrectLandmarks(const vectorLandmarks &measured_landmarks)
             int dimP = state_.dimP();
             int startIndex;
 
-            // Fill out Y
+            /// - 构造Y矩阵
+            /// @f[\mathrm{Y}_{\mathrm{t}}=\left[ \begin{array}{c}
+            /// 	\mathrm{p}_{\mathrm{bl}}\\
+            /// 	0\\
+            /// 	1\\
+            /// 	\vdots\\
+            /// \end{array} \right] _{\mathrm{dimX}\times 1}\,\,\left( \text{若有多个观测，就是多个}Y_t\text{的垂直累加} \right)@f] 
             startIndex = Y.rows();
-            Y.conservativeResize(startIndex + dimX, Eigen::NoChange);
-            Y.segment(startIndex, dimX) = Eigen::VectorXd::Zero(dimX);
+            Y.conservativeResize(startIndex + dimX, Eigen::NoChange);   // Y矩阵新增dimX行,不改变列数
+            Y.segment(startIndex, dimX) = Eigen::VectorXd::Zero(dimX);  //初始化为0
             Y.segment(startIndex, 3) = it->position; // p_bl
             Y(startIndex + 4) = 1;
 
-            // Fill out b
+            /// - 构造b矩阵
+            /// @f[\mathrm{b}=\left[ \begin{array}{c}
+            /// 	\mathrm{p}_{\mathrm{wl}}\\
+            /// 	0\\
+            /// 	1\\
+            /// 	\vdots\\
+            /// \end{array} \right] _{\mathrm{dimX}\times 1}\,\,\,\,\left( \text{若有多个观测，就是多个b的垂直累加} \right)@f]
             startIndex = b.rows();
             b.conservativeResize(startIndex + dimX, Eigen::NoChange);
             b.segment(startIndex, dimX) = Eigen::VectorXd::Zero(dimX);
             b.segment(startIndex, 3) = it_prior->second; // p_wl
             b(startIndex + 4) = 1;
 
-            // Fill out H
+            /// - 构造H矩阵
+            /// @f[\mathrm{H}_{\mathrm{t}}=\left[ \begin{array}{llll:ll}
+            /// 	\left( \mathrm{p}_{\mathrm{wl}} \right) _{\times}&		0_{3\times 3}&		-\mathrm{I}&		\cdots&		0_{3\times 3}&		0_{3\times 3}\\
+            /// \end{array} \right] _{3\times \mathrm{dimP}}\,\,\left( \begin{array}{l}
+            /// 	\text{最后两个}0\text{是bias项},\text{对观测无影响，直接为}0\\
+            /// 	\text{若有多个观测},\text{就是多个H}_{\mathrm{t}}\text{的垂直累加}\\
+            /// \end{array} \right)@f] 
             startIndex = H.rows();
             H.conservativeResize(startIndex + 3, dimP);
             H.block(startIndex, 0, 3, dimP) = Eigen::MatrixXd::Zero(3, dimP);
             H.block(startIndex, 0, 3, 3) = skew(it_prior->second);       // skew(p_wl)
             H.block(startIndex, 6, 3, 3) = -Eigen::Matrix3d::Identity(); // -I
 
-            // Fill out N
+            /// - 构造N矩阵
+            /// @f[
+            /// \bar{\mathrm{N}}_{\mathrm{t}}=\bar{\mathrm{R}}_{\mathrm{t}}\mathrm{Cov}\left( \mathrm{w}^{\mathrm{l}} \right) \bar{\mathrm{R}}_{\mathrm{t}}^{\top}\,\,_{3\times 3}\,\,\left( \text{若有多个观测},\text{就是多个N阵的对角叠加} \right) 
+            /// @f]
             startIndex = N.rows();
             N.conservativeResize(startIndex + 3, startIndex + 3);
-            N.block(startIndex, 0, 3, startIndex) = Eigen::MatrixXd::Zero(3, startIndex);
-            N.block(0, startIndex, startIndex, 3) = Eigen::MatrixXd::Zero(startIndex, 3);
+            N.block(startIndex, 0, 3, startIndex) = Eigen::MatrixXd::Zero(3, startIndex);   // 下三角置0
+            N.block(0, startIndex, startIndex, 3) = Eigen::MatrixXd::Zero(startIndex, 3);   // 上三角置0
             N.block(startIndex, startIndex, 3, 3) = R * noise_params_.getLandmarkCov() * R.transpose();
 
-            // Fill out PI
+            /// - 构造@f$\Pi@f$矩阵
+            /// @f[\Pi =\left[ \begin{matrix}
+            /// 	\mathrm{I}_{3\times 3}&		0&		0&		\cdots\\
+            /// \end{matrix} \right] _{3\times \mathrm{dimX}}\,\,\left( \text{若有多个观测，则对角累计}\Pi \right)@f] 
             startIndex = PI.rows();
             int startIndex2 = PI.cols();
             PI.conservativeResize(startIndex + 3, startIndex2 + dimX);
-            PI.block(startIndex, 0, 3, startIndex2) = Eigen::MatrixXd::Zero(3, startIndex2);
-            PI.block(0, startIndex2, startIndex, dimX) = Eigen::MatrixXd::Zero(startIndex, dimX);
-            PI.block(startIndex, startIndex2, 3, dimX) = Eigen::MatrixXd::Zero(3, dimX);
-            PI.block(startIndex, startIndex2, 3, 3) = Eigen::Matrix3d::Identity();
+            PI.block(startIndex, 0, 3, startIndex2) = Eigen::MatrixXd::Zero(3, startIndex2);        // 从第二个观测起生效,下三角置0
+            PI.block(0, startIndex2, startIndex, dimX) = Eigen::MatrixXd::Zero(startIndex, dimX);   // 从第二个观测起生效,上三角置0
+            PI.block(startIndex, startIndex2, 3, dimX) = Eigen::MatrixXd::Zero(3, dimX);    // 对角位置的新PI全部置0
+            PI.block(startIndex, startIndex2, 3, 3) = Eigen::Matrix3d::Identity();  // 新的PI前3x3为单位阵
         }
+        /// 3.2 如果在 estimated_landmarks_ 中找到该id, 则作为动态地标构造观测进行更新
         else if (it_estimated != estimated_landmarks_.end())
         {
-            ;
             // Found in estimated landmark set
             int dimX = state_.dimX();
             int dimP = state_.dimP();
             int startIndex;
 
-            // Fill out Y
+            /// - 构造Y矩阵
+            /// @f[\mathrm{Y}_{\mathrm{t}}=\left[ \begin{array}{c}
+            /// 	\mathrm{p}_{\mathrm{bl}}\\
+            /// 	0\\
+            /// 	1\\
+            /// 	\vdots\\
+            /// 	-1\\
+            /// 	\vdots\\
+            /// \end{array} \right] _{\mathrm{dimX}\times 1}\,\,\left( \begin{array}{l}
+            /// 	-1\text{处为动态地标id在当前状态X中的列位置},\\
+            /// 	\text{若有多个观测，就是多个Y}_{\mathrm{t}}\text{的垂直累加}\\
+            /// \end{array}\,\,\, \right)@f]
             startIndex = Y.rows();
             Y.conservativeResize(startIndex + dimX, Eigen::NoChange);
             Y.segment(startIndex, dimX) = Eigen::VectorXd::Zero(dimX);
@@ -375,28 +410,53 @@ void InEKF::CorrectLandmarks(const vectorLandmarks &measured_landmarks)
             Y(startIndex + 4) = 1;
             Y(startIndex + it_estimated->second) = -1;
 
-            // Fill out b
+            /// - 构造b矩阵
+            /// @f[\mathrm{b}=\left[ \begin{array}{c}
+            /// 	0_{3\times 1}\\
+            /// 	0\\
+            /// 	1\\
+            /// 	\vdots\\
+            /// 	-1\\
+            /// 	\vdots\\
+            /// \end{array} \right] _{\mathrm{dimX}\times 1}\,\,\left( \begin{array}{l}
+            /// 	-1\text{处为动态地标id在当前状态X中的列位置},\\
+            /// 	\text{若有多个观测，就是多个b的垂直累加}\\
+            /// \end{array}\,\,\, \right)@f] 
             startIndex = b.rows();
             b.conservativeResize(startIndex + dimX, Eigen::NoChange);
             b.segment(startIndex, dimX) = Eigen::VectorXd::Zero(dimX);
             b(startIndex + 4) = 1;
             b(startIndex + it_estimated->second) = -1;
 
-            // Fill out H
+            /// - 构造H矩阵
+            /// @f[\mathrm{H}_{\mathrm{t}}=\left[ \begin{array}{llllll:ll}
+            /// 	0_{3\times 3}&		0_{3\times 3}&		-\mathrm{I}&		\cdots&		\mathrm{I}&		\cdots&		0_{3\times 3}&		0\\
+            /// \end{array}_{3\times 3} \right] _{3\times \mathrm{dimP}}\,\,\left( \begin{array}{l}
+            /// 	\text{I处为动态地标id在当前状态X中的列位置},\\
+            /// 	\text{最后两个}0\text{是bias项},\text{对观测无影响，直接为}0\\
+            /// 	\text{若有多个观测},\text{就是多个H}_{\mathrm{t}}\text{的垂直累加}\\
+            /// \end{array} \right)@f]
             startIndex = H.rows();
             H.conservativeResize(startIndex + 3, dimP);
             H.block(startIndex, 0, 3, dimP) = Eigen::MatrixXd::Zero(3, dimP);
             H.block(startIndex, 6, 3, 3) = -Eigen::Matrix3d::Identity();                           // -I
             H.block(startIndex, 3 * it_estimated->second - 6, 3, 3) = Eigen::Matrix3d::Identity(); // I
 
-            // Fill out N
+            /// - 构造N矩阵
+            /// @f[\bar{\mathrm{N}}_{\mathrm{t}}=\bar{\mathrm{R}}_{\mathrm{t}}\mathrm{Cov}\left( \mathrm{w}_{\mathrm{t}}^{\mathrm{l}} \right) \bar{\mathrm{R}}_{\mathrm{t}}^{\top}\,\,_{3\times 3}\,\,\left( \text{若有多个观测},\text{就是多个N阵的对角叠加} \right)@f]
             startIndex = N.rows();
             N.conservativeResize(startIndex + 3, startIndex + 3);
             N.block(startIndex, 0, 3, startIndex) = Eigen::MatrixXd::Zero(3, startIndex);
             N.block(0, startIndex, startIndex, 3) = Eigen::MatrixXd::Zero(startIndex, 3);
             N.block(startIndex, startIndex, 3, 3) = R * noise_params_.getLandmarkCov() * R.transpose();
 
-            // Fill out PI
+            /// - 构造@f$\Pi@f$矩阵
+            /// @f[\Pi =\left[ \begin{matrix}
+            /// 	\mathrm{I}_{3\times 3}&		0&		0&		\cdots&		0&		\cdots\\
+            /// \end{matrix} \right] _{3\times \mathrm{dimX}}\,\,\left( \begin{array}{l}
+            /// 	\text{后一个}0\text{是当前动态地标id在状态X中的位置}\\
+            /// 	\text{若有多个观测，则对角累加}\Pi\\
+            /// \end{array} \right)@f]
             startIndex = PI.rows();
             int startIndex2 = PI.cols();
             PI.conservativeResize(startIndex + 3, startIndex2 + dimX);
@@ -405,50 +465,113 @@ void InEKF::CorrectLandmarks(const vectorLandmarks &measured_landmarks)
             PI.block(startIndex, startIndex2, 3, dimX) = Eigen::MatrixXd::Zero(3, dimX);
             PI.block(startIndex, startIndex2, 3, 3) = Eigen::Matrix3d::Identity();
         }
+        /// 3.3 如果是检测到的新地标(不存在于 prior_landmarks_ 和 estimated_landmarks_ 中),则添加到 new_landmarks的列表中,后续修改状态矩阵
         else
         {
-            // First time landmark as been detected (add to list for later state augmentation)
             new_landmarks.push_back(*it);
         }
     }
 
-    // Correct state using stacked observation
+    /// 4.当前帧观测数据处理结束,根据构造的Y b H N PI矩阵, 调用 Correct() 函数进行更新, 静态和动态地标同时构造Y, 进行更新
+    /// 即每帧观测只进行一次更新过程
     Observation obs(Y, b, H, N, PI);
     if (!obs.empty())
     {
         this->Correct(obs);
     }
 
-    // Augment state with newly detected landmarks
+    /// 5.向滤波器中增加新检测到的地标, 即对 new_landmarks 列表进行操作
+    /// @note 在对地标的检测中,不同于正向运动学更新,不需要从状态中删除地标
     if (new_landmarks.size() > 0)
     {
         Eigen::MatrixXd X_aug = state_.getX();
         Eigen::MatrixXd P_aug = state_.getP();
         Eigen::Vector3d p = state_.getPosition();
+        // 循环对每个新增动态地标操作
         for (vectorLandmarksIterator it = new_landmarks.begin(); it != new_landmarks.end(); ++it)
         {
-            // Initialize new landmark mean
+            /// - 扩充X, 论文公式(31)
+            /// @f[\mathrm{X} = \left[
+            /// \begin{array}{cccc}
+            /// \mathrm{R} & \mathrm{v} & \mathrm{p} & \cdots \\
+            /// 0          & 1          & 0          & 0      \\
+            /// 0          & 0          & 1          & 0      \\
+            /// 0          & 0          & 0          & 1      \\
+            /// \end{array}
+            /// \right]_{dim \mathrm{X}}
+            /// \Longrightarrow
+            /// \left[
+            /// \begin{array}{cccc:c}
+            /// \mathrm{R} & \mathrm{v} & \mathrm{p} & \cdots & \mathrm{p}_{\mathrm{t}}+\mathrm{R}_{\mathrm{t}}\mathrm{p}_{\mathrm{bl}} \\
+            /// 0          & 1          & 0          & 0      & 0 \\
+            /// 0          & 0          & 1          & 0      & 0 \\
+            /// 0          & 0          & 0          & 1      & 0 \\
+            /// \hdashline
+            /// 0          & 0          & 0          & 0      & 1 \\
+            /// \end{array}
+            /// \right]_{dim \mathrm{X}+1}@f]
             int startIndex = X_aug.rows();
-            X_aug.conservativeResize(startIndex + 1, startIndex + 1);
-            X_aug.block(startIndex, 0, 1, startIndex) = Eigen::MatrixXd::Zero(1, startIndex);
-            X_aug.block(0, startIndex, startIndex, 1) = Eigen::MatrixXd::Zero(startIndex, 1);
-            X_aug(startIndex, startIndex) = 1;
+            X_aug.conservativeResize(startIndex + 1, startIndex + 1);   // 大小加1
+            X_aug.block(startIndex, 0, 1, startIndex) = Eigen::MatrixXd::Zero(1, startIndex);   //下三角置0
+            X_aug.block(0, startIndex, startIndex, 1) = Eigen::MatrixXd::Zero(startIndex, 1);   //上三角置0
+            X_aug(startIndex, startIndex) = 1;  //新增对角置1
             X_aug.block(0, startIndex, 3, 1) = p + R * it->position;
 
-            // Initialize new landmark covariance - TODO:speed up
-            Eigen::MatrixXd F = Eigen::MatrixXd::Zero(state_.dimP() + 3, state_.dimP());
+            /// - 更新误差协方差矩阵P, 初始化新地标的协方差, 论文公式(32)
+            /// @todo speed up
+            /// @f[\left[ \begin{array}{c}
+            /// 	\xi _{t}^{R}\\
+            /// 	\xi _{t}^{v}\\
+            /// 	\xi _{t}^{p}\\
+            /// 	\vdots\\
+            /// 	\hdashline
+            /// 	\xi _{t}^{l}\\
+            /// 	\hdashline
+            /// 	\zeta _{t}^{g}\\
+            /// 	\zeta _{t}^{a}\\
+            /// \end{array} \right] _{\mathrm{dimP}+3}=\left[ \begin{array}{cccc:cc}
+            /// 	\mathrm{I}&		0&		0&		\cdots&		0&		0\\
+            /// 	0&		\mathrm{I}&		0&		\cdots&		0&		0\\
+            /// 	0&		0&		\mathrm{I}&		\cdots&		0&		0\\
+            /// 	\vdots&		\vdots&		\vdots&		\mathrm{I}&		0&		0\\
+            /// 	\hdashline
+            /// 	0&		0&		\mathrm{I}&		0&		0&		0\\
+            /// 	\hdashline
+            /// 	0&		0&		0&		0&		\mathrm{I}&		0\\
+            /// 	0&		0&		0&		0&		0&		\mathrm{I}\\
+            /// \end{array} \right] _{\left( \mathrm{dimP}+3 \right) \times \mathrm{dimP}}\left[ \begin{array}{c}
+            /// 	\xi _{t}^{R}\\
+            /// 	\xi _{t}^{v}\\
+            /// 	\xi _{t}^{p}\\
+            /// 	\vdots\\
+            /// 	\hdashline
+            /// 	\zeta _{t}^{g}\\
+            /// 	\zeta _{t}^{a}\\
+            /// \end{array} \right] _{\mathrm{dimP}}+\left[ \begin{array}{c}
+            /// 	0\\
+            /// 	0\\
+            /// 	0\\
+            /// 	0\\
+            /// 	\hdashline
+            /// 	\bar{\mathrm{R}}_{\mathrm{t}} \\
+            /// 	\hdashline
+            /// 	0\\
+            /// 	0\\
+            /// \end{array} \right] \mathrm{w}_{\mathrm{t}}^{l}@f]
+            /// @f[\xi _{\mathrm{t}}^{\mathrm{new}}\triangleq \mathrm{F}_{\mathrm{t}}\xi _{\mathrm{t}}+\mathrm{G}_{\mathrm{t}}\mathrm{w}_{\mathrm{t}}^{l}\Longrightarrow \mathrm{P}_{\mathrm{t}}^{\mathrm{new}}=\mathrm{F}_{\mathrm{t}}\mathrm{P}_{\mathrm{t}}\mathrm{F}_{\mathrm{t}}^{\top}+\mathrm{G}_{\mathrm{t}}\mathrm{Cov}\left( \mathrm{w}_{\mathrm{t}}^{l} \right) \mathrm{G}_{\mathrm{t}}^{\top}@f]
+            Eigen::MatrixXd F = Eigen::MatrixXd::Zero(state_.dimP() + 3, state_.dimP());    // F阵
             F.block(0, 0, state_.dimP() - state_.dimTheta(), state_.dimP() - state_.dimTheta()) = Eigen::MatrixXd::Identity(state_.dimP() - state_.dimTheta(), state_.dimP() - state_.dimTheta());     // for old X
-            F.block(state_.dimP() - state_.dimTheta(), 6, 3, 3) = Eigen::Matrix3d::Identity();                                                                                                         // for new landmark
+            F.block(state_.dimP() - state_.dimTheta(), 6, 3, 3) = Eigen::Matrix3d::Identity();   // for new landmark
             F.block(state_.dimP() - state_.dimTheta() + 3, state_.dimP() - state_.dimTheta(), state_.dimTheta(), state_.dimTheta()) = Eigen::MatrixXd::Identity(state_.dimTheta(), state_.dimTheta()); // for theta
-            Eigen::MatrixXd G = Eigen::MatrixXd::Zero(F.rows(), 3);
+            Eigen::MatrixXd G = Eigen::MatrixXd::Zero(F.rows(), 3);     // G阵
             G.block(G.rows() - state_.dimTheta() - 3, 0, 3, 3) = R;
-            P_aug = (F * P_aug * F.transpose() + G * noise_params_.getLandmarkCov() * G.transpose()).eval();
+            P_aug = (F * P_aug * F.transpose() + G * noise_params_.getLandmarkCov() * G.transpose()).eval(); //.eval的作用是让Eigen显示计算链式矩阵运算，并立刻返回结果，避免大型链式计算中可能存在的错误发生
 
-            // Update state and covariance
+            // 更新状态和协方差
             state_.setX(X_aug);
             state_.setP(P_aug);
 
-            // Add to list of estimated landmarks
+            /// - 把新增的动态地标状态的<id, 在X中的索引>放入 estimated_landmarks_
             estimated_landmarks_.insert(pair<int, int>(it->id, startIndex));
         }
     }
@@ -470,7 +593,7 @@ void InEKF::CorrectKinematics(const vectorKinematics &measured_kinematics)
     Eigen::MatrixXd PI;
 
     Eigen::Matrix3d R = state_.getRotation();
-    vector<pair<int, int>> remove_contacts;  // 要删除的腿列表,<id,id在X中的位置>
+    vector<pair<int, int>> remove_contacts;  // 要删除的腿列表,<id,id在X中的索引>
     vectorKinematics new_contacts;  // 要新增的腿列表
     vector<int> used_contact_ids;   // 已处理过的contact id列表
 
@@ -527,7 +650,7 @@ void InEKF::CorrectKinematics(const vectorKinematics &measured_kinematics)
             /// 	\vdots\\
             /// \end{array} \right] _{\mathrm{dimX}\times 1}\,\,\left( \begin{array}{l}
             /// 	\text{-1处为腿id在当前状态X中的列位置},\\
-            /// 	\text{若有多个观测，就是多个}Y_t\text{的累加}\\
+            /// 	\text{若有多个观测，就是多个}Y_t\text{的垂直累加}\\
             /// \end{array} \right)@f]
             startIndex = Y.rows();  // 开始索引,多个观测时,Y中已经有数据了
             Y.conservativeResize(startIndex + dimX, Eigen::NoChange);  // Y矩阵新增dimX行,不改变列数
@@ -546,7 +669,7 @@ void InEKF::CorrectKinematics(const vectorKinematics &measured_kinematics)
             /// 	\vdots\\
             /// \end{array} \right] _{\mathrm{dimX}\times 1}\,\,\left( \begin{array}{l}
             /// 	\text{-1处为腿id在当前状态X中的列位置},\\
-            /// 	\text{若有多个观测，就是多个Y}_{\mathrm{t}}\text{的累加}\\
+            /// 	\text{若有多个观测，就是多个b的垂直累加}\\
             /// \end{array} \right)@f] 
             startIndex = b.rows();
             b.conservativeResize(startIndex + dimX, Eigen::NoChange);
@@ -555,9 +678,9 @@ void InEKF::CorrectKinematics(const vectorKinematics &measured_kinematics)
             b(startIndex + it_estimated->second) = -1;
 
             /// - 构造H矩阵
-            /// @f[\mathrm{H}_{\mathrm{t}}=\left[ \begin{matrix}
+            /// @f[\mathrm{H}_{\mathrm{t}}=\left[ \begin{array}{llllll:ll}
             /// 	0_{3\times 3}&		0_{3\times 3}&		-\mathrm{I}&		\cdots&		\mathrm{I}&		\cdots&		0_{3\times 3}&		0\\
-            /// \end{matrix}_{3\times 3} \right] _{1\times \mathrm{dimP}}\,\,\left( \begin{array}{l}
+            /// \end{array}_{3\times 3} \right] _{3\times \mathrm{dimP}}\,\,\left( \begin{array}{l}
             /// 	\text{I处为腿id在当前状态X中的列位置},\\
             /// 	\text{最后两个}0\text{是bias项},\text{对观测无影响，直接为}0\\
             /// 	\text{若有多个观测},\text{就是多个H}_{\mathrm{t}}\text{的累加}\\
@@ -569,7 +692,7 @@ void InEKF::CorrectKinematics(const vectorKinematics &measured_kinematics)
             H.block(startIndex, 3 * it_estimated->second - 6, 3, 3) = Eigen::Matrix3d::Identity(); // I
 
             /// - 构造N矩阵
-            /// @f[\bar{\mathrm{N}}_{\mathrm{t}}=\bar{\mathrm{R}}_{\mathrm{t}}\mathrm{J}_{\mathrm{p}}\left( \mathrm{\alpha}_{\mathrm{t}} \right) \mathrm{Cov}\left( \mathrm{w}_{\mathrm{t}}^{\mathrm{\alpha}} \right) \mathrm{J}_{\mathrm{p}}^{\top}\left( \mathrm{\alpha}_{\mathrm{t}} \right) \bar{\mathrm{R}}_{\mathrm{t}}^{\top}\,\,_{3\times 3}\,\, \left( \text{若有多个观测}, \text{就是多个H阵的对角叠加} \right)@f]             
+            /// @f[\bar{\mathrm{N}}_{\mathrm{t}}=\bar{\mathrm{R}}_{\mathrm{t}}\mathrm{J}_{\mathrm{p}}\left( \mathrm{\alpha}_{\mathrm{t}} \right) \mathrm{Cov}\left( \mathrm{w}_{\mathrm{t}}^{\mathrm{\alpha}} \right) \mathrm{J}_{\mathrm{p}}^{\top}\left( \mathrm{\alpha}_{\mathrm{t}} \right) \bar{\mathrm{R}}_{\mathrm{t}}^{\top}\,\,_{3\times 3}\,\, \left( \text{若有多个观测}, \text{就是多个N阵的对角叠加} \right)@f]             
             startIndex = N.rows();
             N.conservativeResize(startIndex + 3, startIndex + 3);
             N.block(startIndex, 0, 3, startIndex) = Eigen::MatrixXd::Zero(3, startIndex);  //从第二个观测起生效,下三角置0
@@ -664,7 +787,7 @@ void InEKF::CorrectKinematics(const vectorKinematics &measured_kinematics)
             /// 0          & 0          & 1          & 0      \\
             /// 0          & 0          & 0          & 1      \\
             /// \end{array}
-            /// \right]_{dim x}
+            /// \right]_{dim \mathrm{X}}
             /// \Longrightarrow
             /// \left[
             /// \begin{array}{cccc:c}
@@ -675,7 +798,7 @@ void InEKF::CorrectKinematics(const vectorKinematics &measured_kinematics)
             /// \hdashline
             /// 0          & 0          & 0          & 0      & 1 \\
             /// \end{array}
-            /// \right]_{dim \mathrm{x}+1}@f]
+            /// \right]_{dim \mathrm{X}+1}@f]
             int startIndex = X_aug.rows();
             X_aug.conservativeResize(startIndex + 1, startIndex + 1);   //将X大小扩充1
             X_aug.block(startIndex, 0, 1, startIndex) = Eigen::MatrixXd::Zero(1, startIndex);   //新增下三角部分置0
@@ -737,7 +860,7 @@ void InEKF::CorrectKinematics(const vectorKinematics &measured_kinematics)
             state_.setX(X_aug);
             state_.setP(P_aug);
 
-            /// - 把新增的腿状态的<id, 在X中的位置>放入 estimated_contact_positions_
+            /// - 把新增的腿状态的<id, 在X中的索引>放入 estimated_contact_positions_
             estimated_contact_positions_.insert(pair<int, int>(it->id, startIndex));
         }
     }
